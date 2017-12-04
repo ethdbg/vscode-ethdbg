@@ -1,3 +1,5 @@
+This is an ethereum debugger adapter developed using Microsoft/vscode-mock-debug as a starter.
+
 # VS Code ether Debug
 
 This is a starter sample for developing VS Code debug adapters.
