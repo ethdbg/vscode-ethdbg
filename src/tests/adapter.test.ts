@@ -10,7 +10,7 @@ import {DebugProtocol} from 'vscode-debugprotocol';
 
 suite('Node Debug Adapter', () => {
 
-	const DEBUG_ADAPTER = './out/mockDebug.js';
+	const DEBUG_ADAPTER = './out/etherDebug.js';
 
 	const PROJECT_ROOT = Path.join(__dirname, '../../');
 	const DATA_ROOT = Path.join(PROJECT_ROOT, 'src/tests/data/');
@@ -19,7 +19,7 @@ suite('Node Debug Adapter', () => {
 	let dc: DebugClient;
 
 	setup( () => {
-		dc = new DebugClient('node', DEBUG_ADAPTER, 'mock');
+		dc = new DebugClient('node', DEBUG_ADAPTER, 'ether');
 		return dc.start();
 	});
 
@@ -48,7 +48,7 @@ suite('Node Debug Adapter', () => {
 
 		test('should produce error for invalid \'pathFormat\'', done => {
 			dc.initializeRequest({
-				adapterID: 'mock',
+				adapterID: 'ether',
 				linesStartAt1: true,
 				columnsStartAt1: true,
 				pathFormat: 'url'

@@ -1,6 +1,6 @@
 {
-	"name": "mock-debug",
-	"displayName": "Mock Debug",
+	"name": "ether-debug",
+	"displayName": "ether Debug",
 	"version": "0.25.0",
 	"publisher": "andreweinand",
 	"description": "Starter extension for developing debug adapters for VS Code.",
@@ -15,17 +15,17 @@
 		"vscode": "^1.17.0",
 		"node": "^7.9.0"
 	},
-	"icon": "images/mock-debug-icon.png",
+	"icon": "images/ether-debug-icon.png",
 	"categories": [
 		"Debuggers"
 	],
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-mock-debug.git"
+		"url": "https://github.com/Microsoft/vscode-ether-debug.git"
 	},
 	"bugs": {
-		"url": "https://github.com/Microsoft/vscode-mock-debug/issues"
+		"url": "https://github.com/Microsoft/vscode-ether-debug/issues"
 	},
 	"dependencies": {
 		"vscode-debugprotocol": "^1.25.0-pre.0",
@@ -54,7 +54,7 @@
 	"main": "./out/extension",
 	"activationEvents": [
 		"onDebug",
-		"onCommand:extension.mock-debug.getProgramName"
+		"onCommand:extension.ether-debug.getProgramName"
 	],
 	"contributes": {
 		"breakpoints": [
@@ -64,9 +64,9 @@
 		],
 		"debuggers": [
 			{
-				"type": "mock",
-				"label": "Mock Debug",
-				"program": "./out/mockDebug.js",
+				"type": "ether",
+				"label": "ether Debug",
+				"program": "./out/etherDebug.js",
 				"runtime": "node",
 				"configurationAttributes": {
 					"launch": {
@@ -94,7 +94,7 @@
 				},
 				"initialConfigurations": [
 					{
-						"type": "mock",
+						"type": "ether",
 						"request": "launch",
 						"name": "Ask for file name",
 						"program": "${workspaceFolder}/${command:AskForProgramName}",
@@ -103,10 +103,10 @@
 				],
 				"configurationSnippets": [
 					{
-						"label": "Mock Debug: Launch",
-						"description": "A new configuration for launching a mock debug program",
+						"label": "ether Debug: Launch",
+						"description": "A new configuration for launching a ether debug program",
 						"body": {
-							"type": "mock",
+							"type": "ether",
 							"request": "launch",
 							"name": "${2:Launch Program}",
 							"program": "^\"\\${workspaceFolder}/${1:Program}\""
@@ -114,7 +114,7 @@
 					}
 				],
 				"variables": {
-					"AskForProgramName": "extension.mock-debug.getProgramName"
+					"AskForProgramName": "extension.ether-debug.getProgramName"
 				}
 			}
 		]
