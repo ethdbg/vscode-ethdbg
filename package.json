@@ -59,7 +59,7 @@
 	"contributes": {
 		"breakpoints": [
 			{
-				"language": "markdown"
+				"language": "solidity"
 			}
 		],
 		"debuggers": [

@@ -5,8 +5,8 @@
 
 import assert = require('assert');
 import * as Path from 'path';
-import {DebugClient} from 'vscode-debugadapter-testsupport';
-import {DebugProtocol} from 'vscode-debugprotocol';
+import { DebugClient } from 'vscode-debugadapter-testsupport';
+import { DebugProtocol } from 'vscode-debugprotocol';
 
 suite('Node Debug Adapter', () => {
 
@@ -18,12 +18,12 @@ suite('Node Debug Adapter', () => {
 
 	let dc: DebugClient;
 
-	setup( () => {
+	setup(() => {
 		dc = new DebugClient('node', DEBUG_ADAPTER, 'ether');
 		return dc.start();
 	});
 
-	teardown( () => dc.stop() );
+	teardown(() => dc.stop());
 
 
 	suite('basic', () => {
@@ -82,7 +82,7 @@ suite('Node Debug Adapter', () => {
 			return Promise.all([
 				dc.configurationSequence(),
 				dc.launch({ program: PROGRAM, stopOnEntry: true }),
-				dc.assertStoppedLocation('entry', { line: ENTRY_LINE } )
+				dc.assertStoppedLocation('entry', { line: ENTRY_LINE })
 			]);
 		});
 	});
@@ -94,7 +94,7 @@ suite('Node Debug Adapter', () => {
 			const PROGRAM = Path.join(DATA_ROOT, 'test.md');
 			const BREAKPOINT_LINE = 2;
 
-			return dc.hitBreakpoint({ program: PROGRAM }, { path: PROGRAM, line: BREAKPOINT_LINE } );
+			return dc.hitBreakpoint({ program: PROGRAM }, { path: PROGRAM, line: BREAKPOINT_LINE });
 		});
 
 		test('hitting a lazy breakpoint should send a breakpoint event', () => {
@@ -104,9 +104,9 @@ suite('Node Debug Adapter', () => {
 
 			return Promise.all([
 
-				dc.hitBreakpoint({ program: PROGRAM }, { path: PROGRAM, line: BREAKPOINT_LINE, verified: false } ),
+				dc.hitBreakpoint({ program: PROGRAM }, { path: PROGRAM, line: BREAKPOINT_LINE, verified: false }),
 
-				dc.waitForEvent('breakpoint').then((event : DebugProtocol.BreakpointEvent ) => {
+				dc.waitForEvent('breakpoint').then((event: DebugProtocol.BreakpointEvent) => {
 					assert.equal(event.body.breakpoint.verified, true, "event mismatch: verified");
 				})
 			]);
@@ -124,7 +124,7 @@ suite('Node Debug Adapter', () => {
 
 				dc.waitForEvent('initialized').then(event => {
 					return dc.setExceptionBreakpointsRequest({
-						filters: [ 'all' ]
+						filters: ['all']
 					});
 				}).then(response => {
 					return dc.configurationDoneRequest();
@@ -132,7 +132,20 @@ suite('Node Debug Adapter', () => {
 
 				dc.launch({ program: PROGRAM_WITH_EXCEPTION }),
 
-				dc.assertStoppedLocation('exception', { line: EXCEPTION_LINE } )
+				dc.assertStoppedLocation('exception', { line: EXCEPTION_LINE })
+			]);
+		});
+	});
+
+	suite('readSolidityContract', () => {
+		test('should run contract to the end', () => {
+
+			const PROGRAM = Path.join(DATA_ROOT, 'Simple.sol');
+
+			return Promise.all([
+				dc.configurationSequence(),
+				dc.launch({ program: PROGRAM }),
+				dc.waitForEvent('terminated')
 			]);
 		});
 	});
