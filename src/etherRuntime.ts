@@ -100,9 +100,9 @@ export class etherRuntime extends EventEmitter {
 	/*
 	 * Set breakpoint in file with given line.
 	 */
-	public setBreakPoint(path: string, line: number) : etherBreakpoint {
+	public setBreakPoint(path: string, line: number): etherBreakpoint {
 
-		const bp = <etherBreakpoint> { verified: false, line, id: this._breakpointId++ };
+		const bp = <etherBreakpoint>{ verified: false, line, id: this._breakpointId++ };
 		let bps = this._breakPoints.get(path);
 		if (!bps) {
 			bps = new Array<etherBreakpoint>();
@@ -118,7 +118,7 @@ export class etherRuntime extends EventEmitter {
 	/*
 	 * Clear breakpoint in file with given line.
 	 */
-	public clearBreakPoint(path: string, line: number) : etherBreakpoint | undefined {
+	public clearBreakPoint(path: string, line: number): etherBreakpoint | undefined {
 		let bps = this._breakPoints.get(path);
 		if (bps) {
 			const index = bps.findIndex(bp => bp.line === line);
@@ -153,7 +153,7 @@ export class etherRuntime extends EventEmitter {
 	 */
 	private run(reverse = false, stepEvent?: string) {
 		if (reverse) {
-			for (let ln = this._currentLine-1; ln >= 0; ln--) {
+			for (let ln = this._currentLine - 1; ln >= 0; ln--) {
 				if (this.fireEventsForLine(ln, stepEvent)) {
 					this._currentLine = ln;
 					return;
@@ -163,7 +163,7 @@ export class etherRuntime extends EventEmitter {
 			this._currentLine = 0;
 			this.sendEvent('stopOnEntry');
 		} else {
-			for (let ln = this._currentLine+1; ln < this._sourceLines.length; ln++) {
+			for (let ln = this._currentLine + 1; ln < this._sourceLines.length; ln++) {
 				if (this.fireEventsForLine(ln, stepEvent)) {
 					this._currentLine = ln;
 					return true;
@@ -174,7 +174,7 @@ export class etherRuntime extends EventEmitter {
 		}
 	}
 
-	private verifyBreakpoints(path: string) : void {
+	private verifyBreakpoints(path: string): void {
 		let bps = this._breakPoints.get(path);
 		if (bps) {
 			this.loadSource(path);
@@ -250,7 +250,7 @@ export class etherRuntime extends EventEmitter {
 		return false;
 	}
 
-	private sendEvent(event: string, ... args: any[]) {
+	private sendEvent(event: string, ...args: any[]) {
 		setImmediate(_ => {
 			this.emit(event, ...args);
 		});
