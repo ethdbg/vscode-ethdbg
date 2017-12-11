@@ -61,8 +61,6 @@ export class etherRuntime extends EventEmitter {
 		this.loadSource(program);
 		this._currentLine = -1;
 
-		this.verifyBreakpoints(this._sourceFile);
-
 		if (stopOnEntry) {
 			// we step once
 			this.step(false, 'stopOnEntry');
@@ -127,8 +125,6 @@ export class etherRuntime extends EventEmitter {
 		}
 		bps.push(bp);
 
-		this.verifyBreakpoints(path);
-
 		return bp;
 	}
 
@@ -189,33 +185,6 @@ export class etherRuntime extends EventEmitter {
 			}
 			// no more lines: run to end
 			this.sendEvent('end');
-		}
-	}
-
-	private verifyBreakpoints(path: string): void {
-		let bps = this._breakPoints.get(path);
-		if (bps) {
-			this.loadSource(path);
-			bps.forEach(bp => {
-				if (!bp.verified && bp.line < this._sourceLines.length) {
-					const srcLine = this._sourceLines[bp.line].trim();
-
-					// if a line is empty or starts with '+' we don't allow to set a breakpoint but move the breakpoint down
-					if (srcLine.length === 0 || srcLine.indexOf('+') === 0) {
-						bp.line++;
-					}
-					// if a line starts with '-' we don't allow to set a breakpoint but move the breakpoint up
-					if (srcLine.indexOf('-') === 0) {
-						bp.line--;
-					}
-					// don't set 'verified' to true if the line contains the word 'lazy'
-					// in this case the breakpoint will be verified 'lazy' after hitting it once.
-					if (srcLine.indexOf('lazy') < 0) {
-						bp.verified = true;
-						this.sendEvent('breakpointValidated', bp);
-					}
-				}
-			});
 		}
 	}
 
