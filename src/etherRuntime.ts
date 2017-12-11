@@ -84,11 +84,13 @@ export class etherRuntime extends EventEmitter {
 	}
 
 	/**
-	 * Returns a fake 'stacktrace' where every 'stackframe' is a word from the current line.
+	 * Returns a 'stacktrace' where every 'stackframe' is a word from the current line.
 	 */
 	public stack(startFrame: number, endFrame: number): any {
 
-		const words = this._sourceLines[this._currentLine].trim().split(/\s+/);
+		// TODO This just needs to pull a stack trace from a context object.
+
+		const words = this._debugger.getContext();
 
 		const frames = new Array<any>();
 		// every word of the current line becomes a stack frame.
