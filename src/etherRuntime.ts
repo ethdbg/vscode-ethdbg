@@ -2,8 +2,15 @@
  * Copyright (C) Microsoft Corporation. All rights reserved.
  *--------------------------------------------------------*/
 
+/**
+ * @file
+ * Modified under the MIT.
+ * Most things *should* work just about correctly, we just need to add tie-ins to the runtime.
+ */
+
 import { readFileSync } from 'fs';
 import { EventEmitter } from 'events';
+import { Debugger } from 'ethdbg';
 
 export interface etherBreakpoint {
 	id: number;
@@ -24,6 +31,7 @@ export class etherRuntime extends EventEmitter {
 
 	// the contents (= lines) of the one and only file
 	private _sourceLines: string[];
+	private _debugger: Debugger;
 
 	// This is the next line that will be 'executed'
 	private _currentLine = 0;
@@ -38,6 +46,7 @@ export class etherRuntime extends EventEmitter {
 
 	constructor() {
 		super();
+		this._debugger = new Debugger();
 	}
 
 	/**
@@ -70,6 +79,7 @@ export class etherRuntime extends EventEmitter {
 	 * Step to the next/previous non empty line.
 	 */
 	public step(reverse = false, event = 'stopOnStep') {
+		this._debugger.stepInto();
 		this.run(reverse, event);
 	}
 
@@ -107,6 +117,7 @@ export class etherRuntime extends EventEmitter {
 		if (!bps) {
 			bps = new Array<etherBreakpoint>();
 			this._breakPoints.set(path, bps);
+			this._debugger.toggleBreakpoint(path, line);
 		}
 		bps.push(bp);
 
@@ -125,6 +136,7 @@ export class etherRuntime extends EventEmitter {
 			if (index >= 0) {
 				const bp = bps[index];
 				bps.splice(index, 1);
+				this._debugger.toggleBreakpoint(path, line);
 				return bp;
 			}
 		}
