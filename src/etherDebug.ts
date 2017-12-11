@@ -183,33 +183,12 @@ class etherDebugSession extends LoggingDebugSession {
 		// TODO This just needs to pull the variable info from a context object.
 
 		const variables = new Array<DebugProtocol.Variable>();
-		const id = this._variableHandles.get(args.variablesReference);
-		if (id !== null) {
-			variables.push({
-				name: id + "_i",
-				type: "integer",
-				value: "123",
-				variablesReference: 0
-			});
-			variables.push({
-				name: id + "_f",
-				type: "float",
-				value: "3.14",
-				variablesReference: 0
-			});
-			variables.push({
-				name: id + "_s",
-				type: "string",
-				value: "hello world",
-				variablesReference: 0
-			});
-			variables.push({
-				name: id + "_o",
-				type: "object",
-				value: "Object",
-				variablesReference: this._variableHandles.create("object_")
-			});
-		}
+
+		let current = this._runtime.getContext().variables;
+
+		current.forEach(element => {
+			variables.push(element);
+		});
 
 		response.body = {
 			variables: variables

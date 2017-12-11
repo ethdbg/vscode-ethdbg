@@ -49,6 +49,10 @@ export class etherRuntime extends EventEmitter {
 		this._debugger = new Debugger();
 	}
 
+	public getContext() {
+		return this._debugger.getContext();
+	}
+
 	/**
 	 * Start executing the given program.
 	 */
