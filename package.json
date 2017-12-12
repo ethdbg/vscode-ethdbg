@@ -2,11 +2,11 @@
 	"name": "ether-debug",
 	"displayName": "ether Debug",
 	"version": "0.25.0",
-	"publisher": "andreweinand",
-	"description": "Starter extension for developing debug adapters for VS Code.",
+	"publisher": "romulus10",
+	"description": "An Ethereum Solidity debugger based on Microsoft's Starter extension for developing debug adapters for VS Code.",
 	"author": {
-		"name": "Microsoft Corporation",
-		"email": "aweinand@microsoft.com"
+		"name": "Sean Batzel",
+		"email": "romulus108@protonmail.com"
 	},
 	"keywords": [
 		"multi-root ready"
