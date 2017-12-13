@@ -10,7 +10,8 @@
 
 import { readFileSync } from 'fs';
 import { EventEmitter } from 'events';
-const Debugger:any = require('./../../ethdbg/index.js');
+/// <reference path="./../ethdbg/lib/debugger.d.ts" />
+import { Debugger } from './../ethdbg/';
 
 export interface etherBreakpoint {
 	id: number;
@@ -157,7 +158,7 @@ export class EtherRuntime extends EventEmitter {
 		if (this._sourceFile !== file) {
 			this._sourceFile = file;
 			this._sourceLines = readFileSync(this._sourceFile).toString().split('\n');
-			this._debugger.add({'path': file});
+			this._debugger.add({ 'path': file });
 		}
 	}
 
