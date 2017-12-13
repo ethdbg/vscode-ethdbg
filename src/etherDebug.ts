@@ -187,6 +187,7 @@ class etherDebugSession extends LoggingDebugSession {
 		let current = this._runtime.getContext().variables;
 
 		current.forEach(element => {
+			// TODO Figure out how to cast the current object to a DebugProtocol.Variable.
 			variables.push(element);
 		});
 
