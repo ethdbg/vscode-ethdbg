@@ -97,12 +97,11 @@ export class EtherRuntime extends EventEmitter {
 		const frames = new Array<any>();
 		// every word of the current line becomes a stack frame.
 		for (let i = startFrame; i < Math.min(endFrame, stack.length); i++) {
-			const name = stack[i];	// use a word of the line as the stackframe name
 			frames.push({
 				index: i,
-				name: `${name}(${i})`,
-				file: this._sourceFile,
-				line: this._currentLine
+				name: stack.text,
+				file: stack.file,
+				line: stack.line,
 			});
 		}
 		return {
