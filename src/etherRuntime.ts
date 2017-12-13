@@ -43,7 +43,6 @@ export class etherRuntime extends EventEmitter {
 	// so that the frontend can match events with breakpoints.
 	private _breakpointId = 1;
 
-
 	constructor() {
 		super();
 		this._debugger = new Debugger();
@@ -92,12 +91,12 @@ export class etherRuntime extends EventEmitter {
 
 		// TODO This just needs to pull a stack trace from a context object.
 
-		const words = this._debugger.getContext();
+		const stack = this._debugger.getContext().stack;
 
 		const frames = new Array<any>();
 		// every word of the current line becomes a stack frame.
-		for (let i = startFrame; i < Math.min(endFrame, words.length); i++) {
-			const name = words[i];	// use a word of the line as the stackframe name
+		for (let i = startFrame; i < Math.min(endFrame, stack.length); i++) {
+			const name = stack[i];	// use a word of the line as the stackframe name
 			frames.push({
 				index: i,
 				name: `${name}(${i})`,
@@ -107,7 +106,7 @@ export class etherRuntime extends EventEmitter {
 		}
 		return {
 			frames: frames,
-			count: words.length
+			count: stack.length
 		};
 	}
 
