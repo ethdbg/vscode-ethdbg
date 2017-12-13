@@ -158,6 +158,7 @@ export class etherRuntime extends EventEmitter {
 		if (this._sourceFile !== file) {
 			this._sourceFile = file;
 			this._sourceLines = readFileSync(this._sourceFile).toString().split('\n');
+			this._debugger.add({'path': file});
 		}
 	}
 
