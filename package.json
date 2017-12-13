@@ -29,8 +29,7 @@
 	},
 	"dependencies": {
 		"vscode-debugprotocol": "^1.25.0-pre.0",
-		"vscode-debugadapter": "^1.25.0-pre.0",
-		"ethdbg": "github:InsidiousMind/ethdbg#master"
+		"vscode-debugadapter": "^1.25.0-pre.0"
 	},
 	"devDependencies": {
 		"@types/node": "^6.0.50",

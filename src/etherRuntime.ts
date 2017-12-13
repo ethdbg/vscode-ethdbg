@@ -10,7 +10,7 @@
 
 import { readFileSync } from 'fs';
 import { EventEmitter } from 'events';
-import { Debugger } from 'ethdbg';
+const Debugger:any = require('./../../ethdbg/index.js');
 
 export interface etherBreakpoint {
 	id: number;
@@ -21,7 +21,7 @@ export interface etherBreakpoint {
 /**
  * A ether runtime with minimal debugger functionality.
  */
-export class etherRuntime extends EventEmitter {
+export class EtherRuntime extends EventEmitter {
 
 	// the initial (and one and only) file we are 'debugging'
 	private _sourceFile: string;
