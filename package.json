@@ -1,6 +1,6 @@
 {
 	"name": "ether-debug",
-	"displayName": "ether Debug",
+	"displayName": "Ethereum Debug",
 	"version": "0.25.0",
 	"publisher": "romulus10",
 	"description": "An Ethereum Solidity debugger based on Microsoft's Starter extension for developing debug adapters for VS Code.",
