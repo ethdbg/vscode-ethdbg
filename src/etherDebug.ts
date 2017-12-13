@@ -188,7 +188,12 @@ class etherDebugSession extends LoggingDebugSession {
 
 		current.forEach(element => {
 			// TODO Figure out how to cast the current object to a DebugProtocol.Variable.
-			variables.push(element);
+			variables.push({
+					name: element.name,
+					type: "ui32",
+					value: element.value.toString(),
+					variablesReference: 0,
+				});
 		});
 
 		response.body = {
