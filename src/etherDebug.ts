@@ -10,7 +10,7 @@ import {
 } from 'vscode-debugadapter';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { basename } from 'path';
-import { etherRuntime, etherBreakpoint } from './etherRuntime';
+import { EtherRuntime, etherBreakpoint } from './etherRuntime';
 
 
 /**
@@ -34,7 +34,7 @@ class etherDebugSession extends LoggingDebugSession {
 	private static THREAD_ID = 1;
 
 	// a ether runtime (or debugger)
-	private _runtime: etherRuntime;
+	private _runtime: EtherRuntime;
 
 	private _variableHandles = new Handles<string>();
 
@@ -49,7 +49,7 @@ class etherDebugSession extends LoggingDebugSession {
 		this.setDebuggerLinesStartAt1(false);
 		this.setDebuggerColumnsStartAt1(false);
 
-		this._runtime = new etherRuntime();
+		this._runtime = new EtherRuntime();
 
 		// setup event handlers
 		this._runtime.on('stopOnEntry', () => {
