@@ -99,9 +99,9 @@ export class EtherRuntime extends EventEmitter {
 		for (let i = startFrame; i < Math.min(endFrame, stack.length); i++) {
 			frames.push({
 				index: i,
-				name: stack.text,
-				file: stack.file,
-				line: stack.line,
+				name: stack[i].text,
+				file: stack[i].file,
+				line: stack[i].line,
 			});
 		}
 		return {
