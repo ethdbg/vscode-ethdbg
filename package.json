@@ -104,7 +104,7 @@
 				"configurationSnippets": [
 					{
 						"label": "ether Debug: Launch",
-						"description": "A new configuration for launching a ether debug program",
+						"description": "A new configuration for launching a solidity contract",
 						"body": {
 							"type": "ether",
 							"request": "launch",
