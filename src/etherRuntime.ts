@@ -46,7 +46,6 @@ export class EtherRuntime extends EventEmitter {
 
 	constructor() {
 		super();
-		this._debugger = new Debugger();
 	}
 
 	public getContext() {
@@ -59,6 +58,7 @@ export class EtherRuntime extends EventEmitter {
 	public start(program: string, stopOnEntry: boolean) {
 
 		this.loadSource(program);
+		this._debugger = new Debugger({'path': program});
 		this._currentLine = -1;
 
 		if (stopOnEntry) {
