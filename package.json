@@ -8,6 +8,11 @@
 		"name": "Sean Batzel",
 		"email": "romulus108@protonmail.com"
 	},
+        "contributors": [
+          "name": "Andrew Plaza",
+          "email": "aplaza@liquidthink.net",
+          "url": "http://code.liquidthink.net"
+        ],
 	"keywords": [
 		"multi-root ready"
 	],
@@ -17,15 +22,22 @@
 	},
 	"icon": "images/ether-debug-icon.png",
 	"categories": [
-		"Debuggers"
+		"Debuggers",
+                "Ethereum",
+                "Solidity",
+                "debug",
+                "truffle",
+                "testRPC",
+                "contracts",
+                "smart contracts"
 	],
 	"private": true,
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-ether-debug.git"
+		"url": "https://github.com/ethdbg/vscode-ethdbg"
 	},
 	"bugs": {
-		"url": "https://github.com/Microsoft/vscode-ether-debug/issues"
+		"url": "https://github.com/ethdbg/vscode-ethdbg/issues"
 	},
 	"dependencies": {
 		"vscode-debugprotocol": "^1.25.0-pre.0",
@@ -64,8 +76,8 @@
 		],
 		"debuggers": [
 			{
-				"type": "ether",
-				"label": "ether Debug",
+				"type": "Solidity",
+				"label": "Ethereum Debug",
 				"program": "./out/etherDebug.js",
 				"runtime": "node",
 				"configurationAttributes": {
