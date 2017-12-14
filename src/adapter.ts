@@ -2,12 +2,14 @@
  * Adapted from https://github.com/raix/vscode-perl-debug/blob/master/src/adapter.ts
  */
 
-import { join, dirname, sep } from 'path';
+// TODO The way this gets rewritten will really end up dependent on how ethdbg works.
+
+import { join, sep } from 'path';
 import * as fs from 'fs';
 import { spawn } from 'child_process';
 import { StreamCatcher } from './streamCatcher';
 import * as RX from './regExp';
-import variableParser, { ParsedVariable, ParsedVariableScope } from './variableParser';
+import variableParser, { ParsedVariableScope } from './variableParser';
 
 interface ResponseError {
 	filename: string,
@@ -299,6 +301,7 @@ export class ethbgConnection {
 		if (!fs.existsSync(sourceFile)) this.logOutput(`Error: File ${sourceFile} not found`);
 		if (cwd && !fs.existsSync(cwd)) this.logOutput(`Error: Folder ${cwd} not found`);
 
+		// TODO Lose the references to perl.
 		const perlCommand = options.exec || 'perl';
 		const programArguments = options.args || [];
 
@@ -362,6 +365,7 @@ export class ethbgConnection {
 
 		try {
 			// Get the version just after
+			// TODO Should we make this get the ethdbg version?
 			this.perlVersion = await this.getPerlVersion();
 		} catch (ignore) {
 			// xxx: We have to ignore this error because it would intercept the true
@@ -590,6 +594,7 @@ export class ethbgConnection {
 		return this.request('W *');
 	}
 
+	// TODO Do we even need anything like this?
 	async getPerlVersion(): Promise<string> {
 		const res = await this.request('p $]');
 		return res.data[0];
