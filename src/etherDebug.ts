@@ -7,7 +7,7 @@ import {
 	DebugSession, LoggingDebugSession,
 	InitializedEvent, TerminatedEvent, StoppedEvent, BreakpointEvent, OutputEvent, //Event,
 	Thread, StackFrame, Scope, Source, Handles, Breakpoint//, Variable
-}  from 'vscode-debugadapter';
+} from 'vscode-debugadapter';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { basename } from 'path';
 import { EtherRuntime, etherBreakpoint } from './etherRuntime';
@@ -127,8 +127,8 @@ class EtherDebugSession extends LoggingDebugSession {
 		// set and verify breakpoint locations
 		const actualBreakpoints = clientLines.map(l => {
 			let { verified, line, id } = this._runtime.setBreakPoint(path, this.convertClientLineToDebugger(l));
-			const bp = <DebugProtocol.Breakpoint> new Breakpoint(verified, this.convertDebuggerLineToClient(line));
-			bp.id= id;
+			const bp = <DebugProtocol.Breakpoint>new Breakpoint(verified, this.convertDebuggerLineToClient(line));
+			bp.id = id;
 			return bp;
 		});
 
@@ -189,11 +189,11 @@ class EtherDebugSession extends LoggingDebugSession {
 		current.forEach(element => {
 			// TODO Figure out how to cast the current object to a DebugProtocol.Variable.
 			variables.push({
-					name: element.name,
-					type: "ui32",
-					value: element.value.toString(),
-					variablesReference: 0,
-				});
+				name: element.name,
+				type: "ui32",
+				value: element.value.toString(),
+				variablesReference: 0,
+			});
 		});
 
 		response.body = {
@@ -207,10 +207,10 @@ class EtherDebugSession extends LoggingDebugSession {
 		this.sendResponse(response);
 	}
 
-	protected reverseContinueRequest(response: DebugProtocol.ReverseContinueResponse, args: DebugProtocol.ReverseContinueArguments) : void {
+	protected reverseContinueRequest(response: DebugProtocol.ReverseContinueResponse, args: DebugProtocol.ReverseContinueArguments): void {
 		this._runtime.continue(true);
 		this.sendResponse(response);
- 	}
+	}
 
 	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
 		this._runtime.step();
@@ -231,8 +231,8 @@ class EtherDebugSession extends LoggingDebugSession {
 			const matches = /new +([0-9]+)/.exec(args.expression);
 			if (matches && matches.length === 2) {
 				const mbp = this._runtime.setBreakPoint(this._runtime.sourceFile, this.convertClientLineToDebugger(parseInt(matches[1])));
-				const bp = <DebugProtocol.Breakpoint> new Breakpoint(mbp.verified, this.convertDebuggerLineToClient(mbp.line), undefined, this.createSource(this._runtime.sourceFile));
-				bp.id= mbp.id;
+				const bp = <DebugProtocol.Breakpoint>new Breakpoint(mbp.verified, this.convertDebuggerLineToClient(mbp.line), undefined, this.createSource(this._runtime.sourceFile));
+				bp.id = mbp.id;
 				this.sendEvent(new BreakpointEvent('new', bp));
 				reply = `breakpoint created`;
 			} else {
@@ -240,8 +240,8 @@ class EtherDebugSession extends LoggingDebugSession {
 				if (matches && matches.length === 2) {
 					const mbp = this._runtime.clearBreakPoint(this._runtime.sourceFile, this.convertClientLineToDebugger(parseInt(matches[1])));
 					if (mbp) {
-						const bp = <DebugProtocol.Breakpoint> new Breakpoint(false);
-						bp.id= mbp.id;
+						const bp = <DebugProtocol.Breakpoint>new Breakpoint(false);
+						bp.id = mbp.id;
 						this.sendEvent(new BreakpointEvent('removed', bp));
 						reply = `breakpoint deleted`;
 					}
