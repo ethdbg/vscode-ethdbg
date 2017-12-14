@@ -1,7 +1,7 @@
 {
   "activationEvents": [
     "onDebug",
-    "onCommand:extension.ether-debug.getProgramName",
+    "onCommand:extension.ether-debug.getContractFile",
     "onCommand:extension.ether-debug.provideInitialConfigurations"
   ],
   "author": {"email": "romulus108@protonmail.com", "name": "Sean Batzel"},
