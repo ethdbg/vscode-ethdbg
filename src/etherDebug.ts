@@ -5,8 +5,8 @@
 import {
 	Logger, logger,
 	DebugSession, LoggingDebugSession,
-	InitializedEvent, TerminatedEvent, StoppedEvent, BreakpointEvent, OutputEvent, Event,
-	Thread, StackFrame, Scope, Source, Handles, Breakpoint, Variable
+	InitializedEvent, TerminatedEvent, StoppedEvent, BreakpointEvent, OutputEvent, //Event,
+	Thread, StackFrame, Scope, Source, Handles, Breakpoint//, Variable
 }  from 'vscode-debugadapter';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { basename } from 'path';
