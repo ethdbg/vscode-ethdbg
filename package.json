@@ -7,12 +7,14 @@
 	"author": {
 		"name": "Sean Batzel",
 		"email": "romulus108@protonmail.com"
-	},
-        "contributors": [
-          "name": "Andrew Plaza",
-          "email": "aplaza@liquidthink.net",
-          "url": "http://code.liquidthink.net"
-        ],
+	 },
+     "contributors": [
+    	{
+        	"name": "Andrew Plaza",
+        	"email": "aplaza@liquidthink.net",
+        	"url": "http://code.liquidthink.net"
+        }
+     ],
 	"keywords": [
 		"multi-root ready"
 	],
@@ -80,11 +82,26 @@
 				"label": "Ethereum Debug",
 				"program": "./out/etherDebug.js",
 				"runtime": "node",
+				"variables": {
+					"AskForProgramName": "extension.ether-debug.getProgramName"
+				},
+				"languages": [
+					"solidity"
+				],
+				"configurationSnippets": [
+					{
+						"label": "ether Debug: Launch",
+						"description": "A new configuration for launching a solidity program",
+						"body": {
+							"type": "ether",
+							"request": "launch",
+							"name": "${2:Launch Program}",
+							"program": "^\"\\${workspaceFolder}/${1:Program}\""
+						}
+					}
+				],
 				"configurationAttributes": {
 					"launch": {
-						"required": [
-							"program"
-						],
 						"properties": {
 							"program": {
 								"type": "string",
@@ -101,7 +118,10 @@
 								"description": "Enable logging of the Debug Adapter Protocol.",
 								"default": true
 							}
-						}
+						},
+						"required": [
+							"program"
+						]
 					}
 				},
 				"initialConfigurations": [
@@ -112,22 +132,7 @@
 						"program": "${workspaceFolder}/${command:AskForProgramName}",
 						"stopOnEntry": true
 					}
-				],
-				"configurationSnippets": [
-					{
-						"label": "ether Debug: Launch",
-						"description": "A new configuration for launching a solidity program",
-						"body": {
-							"type": "ether",
-							"request": "launch",
-							"name": "${2:Launch Program}",
-							"program": "^\"\\${workspaceFolder}/${1:Program}\""
-						}
-					}
-				],
-				"variables": {
-					"AskForProgramName": "extension.ether-debug.getProgramName"
-				}
+				]
 			}
 		]
 	}
