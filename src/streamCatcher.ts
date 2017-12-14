@@ -4,7 +4,7 @@
  * it takes requests and generates a response from the streams
  */
 
-import {Writable, Readable} from 'stream';
+import { Writable, Readable } from 'stream';
 import * as RX from './regExp';
 
 interface RequestTask {
@@ -28,14 +28,14 @@ export class StreamCatcher {
 	public input: Writable;
 
 	constructor() {
-			// Listen for a ready signal
-			const result = this.request(null)
-				.then((res) => {
-					if (this.debug) console.log('ready', res);
-					this.readyResponse = res;
-					this.ready = true;
-					this.readyListeners.forEach(f => f(res));
-				});
+		// Listen for a ready signal
+		const result = this.request(null)
+			.then((res) => {
+				if (this.debug) console.log('ready', res);
+				this.readyResponse = res;
+				this.ready = true;
+				this.readyListeners.forEach(f => f(res));
+			});
 
 	}
 
