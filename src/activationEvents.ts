@@ -14,7 +14,7 @@ const initialConfigurations = {
   }
 ]}
 
-export function getProgramName(config) {
+export function getContractFile(config) {
   return vscode.window.showInputBox({
     placeHolder: "Enter contract name",
     value: "contract.sol"

@@ -23,8 +23,8 @@
         "configurationAttributes": {
           "launch": {
             "properties": {
-              "program": {
-                "default": "${workspaceFolder}/${command:AskForProgramName}",
+              "contract": {
+                "default": "${workspaceFolder}/${command:AskForContractFile}",
                 "description": "Absolute path to a text file.",
                 "type": "string"
               },
@@ -42,22 +42,10 @@
             "required": ["program"]
           }
         },
-        "configurationSnippets": [
-          {
-            "body": {
-              "name": "${2:Launch Program}",
-              "program": "^\"\\${workspaceFolder}/${1:Program}\"",
-              "request": "launch",
-              "type": "ether-debug"
-            },
-            "description": "A new configuration for launching a solidity program",
-            "label": "ether Debug: Launch"
-          }
-        ],
         "initialConfigurations": [
           {
             "name": "Ask for file name",
-            "program": "${workspaceFolder}/${command:AskForProgramName}",
+            "program": "${workspaceFolder}/${command:AskForContractFile}",
             "request": "launch",
             "stopOnEntry": true,
             "type": "ether"
@@ -69,7 +57,8 @@
         "runtime": "node",
         "type": "ether-debug",
         "variables": {
-          "AskForProgramName": "extension.ether-debug.getProgramName"
+          "AskForContractFile": "extension.ether-debug.getContractFile",
+          "initialConfigurations": "extension.ether-debug.provideInitialConfigurations"
         }
       }
     ]

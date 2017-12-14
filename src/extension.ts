@@ -9,8 +9,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      'extension.ether-debug.getProgramName', 
-      events.getProgramName
+      'extension.ether-debug.getContractFile', 
+      events.getContractFile
     )
   );
 
