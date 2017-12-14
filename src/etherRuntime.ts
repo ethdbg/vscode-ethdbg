@@ -11,7 +11,7 @@
 import { readFileSync } from 'fs';
 import { EventEmitter } from 'events';
 /// <reference path="./../ethdbg/lib/debugger.d.ts" />
-import Debugger from './../ethdbg/';
+import Debugger from './../ethdbg/lib/debugger';
 
 export interface etherBreakpoint {
 	id: number;
