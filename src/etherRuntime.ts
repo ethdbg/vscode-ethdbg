@@ -57,17 +57,13 @@ export class EtherRuntime extends EventEmitter {
 	}
 
 	public getContext() {
-		/*
-		var variables: Array<variable>;
-		var stack: Array<stackframe>;
-
-
+		var variables: Array<variable> = new Array();
+		var stack: Array<stackframe> = new Array();
 
 		return {
 			'variables': variables,
 			'stack': stack,
 		}
-		*/
 	}
 
 	/**
