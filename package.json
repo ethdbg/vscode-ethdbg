@@ -1,12 +1,27 @@
 {
-    "activationEvents": [
-        "onDebug",
-        "onCommand:extension.ether-debug.getProgramName"
-    ],
+    "name": "ether-debug",
+    "displayName": "Ethereum Debug",
+    "version": "0.25.0",
+    "icon": "images/ether-debug-icon.png",
+    "description": "An Ethereum Solidity debugger for developing smart contracts in VSCode",
+    "private": true,
+    "publisher": "romulus10",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ethdbg/vscode-ethdbg"
+    },
+    "main": "./out/extension",
     "author": {
         "email": "romulus108@protonmail.com",
         "name": "Sean Batzel"
     },
+    "contributors": [
+        {
+            "email": "aplaza@liquidthink.net",
+            "name": "Andrew Plaza",
+            "url": "http://code.liquidthink.net"
+        }
+    ],   
     "bugs": {
         "url": "https://github.com/ethdbg/vscode-ethdbg/issues"
     },
@@ -19,6 +34,41 @@
         "testRPC",
         "contracts",
         "smart contracts"
+    ],
+    "keywords": [
+        "multi-root ready"
+    ],
+   "scripts": {
+        "compile": "tsc -p ./src",
+        "package": "vsce package",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "prepublish": "tsc -p ./src",
+        "publish": "vsce publish",
+        "test": "mocha -u tdd ./out/tests/",
+        "tslint": "tslint ./src/**/*.ts",
+        "watch": "tsc -w -p ./src"
+    },
+    "dependencies": {
+        "vscode-debugadapter": "^1.25.0-pre.0",
+        "vscode-debugprotocol": "^1.25.0-pre.0"
+    },
+    "devDependencies": {
+        "@types/mocha": "^2.2.44",
+        "@types/node": "^6.0.50",
+        "mocha": "^3.5.0",
+        "tslint": "^5.8.0",
+        "typescript": "^2.5.3",
+        "vsce": "^1.31.2",
+        "vscode": "^1.1.6",
+        "vscode-debugadapter-testsupport": "^1.24.0"
+    },
+    "engines": {
+        "node": "^7.9.0",
+        "vscode": "^1.17.0"
+    },
+    "activationEvents": [
+        "onDebug",
+        "onCommand:extension.ether-debug.getProgramName"
     ],
     "contributes": {
         "breakpoints": [
@@ -85,55 +135,5 @@
                 }
             }
         ]
-    },
-    "contributors": [
-        {
-            "email": "aplaza@liquidthink.net",
-            "name": "Andrew Plaza",
-            "url": "http://code.liquidthink.net"
-        }
-    ],
-    "dependencies": {
-        "vscode-debugadapter": "^1.25.0-pre.0",
-        "vscode-debugprotocol": "^1.25.0-pre.0"
-    },
-    "description": "An Ethereum Solidity debugger based on Microsoft's Starter extension for developing debug adapters for VS Code.",
-    "devDependencies": {
-        "@types/mocha": "^2.2.44",
-        "@types/node": "^6.0.50",
-        "mocha": "^3.5.0",
-        "tslint": "^5.8.0",
-        "typescript": "^2.5.3",
-        "vsce": "^1.31.2",
-        "vscode": "^1.1.6",
-        "vscode-debugadapter-testsupport": "^1.24.0"
-    },
-    "displayName": "Ethereum Debug",
-    "engines": {
-        "node": "^7.9.0",
-        "vscode": "^1.17.0"
-    },
-    "icon": "images/ether-debug-icon.png",
-    "keywords": [
-        "multi-root ready"
-    ],
-    "main": "./out/extension",
-    "name": "ether-debug",
-    "private": true,
-    "publisher": "romulus10",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ethdbg/vscode-ethdbg"
-    },
-    "scripts": {
-        "compile": "tsc -p ./src",
-        "package": "vsce package",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "prepublish": "tsc -p ./src",
-        "publish": "vsce publish",
-        "test": "mocha -u tdd ./out/tests/",
-        "tslint": "tslint ./src/**/*.ts",
-        "watch": "tsc -w -p ./src"
-    },
-    "version": "0.25.0"
+    }
 }
