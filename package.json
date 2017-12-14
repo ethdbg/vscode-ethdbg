@@ -7,14 +7,14 @@
 	"author": {
 		"name": "Sean Batzel",
 		"email": "romulus108@protonmail.com"
-	 },
-     "contributors": [
-    	{
-        	"name": "Andrew Plaza",
-        	"email": "aplaza@liquidthink.net",
-        	"url": "http://code.liquidthink.net"
-        }
-     ],
+	},
+	"contributors": [
+		{
+			"name": "Andrew Plaza",
+			"email": "aplaza@liquidthink.net",
+			"url": "http://code.liquidthink.net"
+		}
+	],
 	"keywords": [
 		"multi-root ready"
 	],
@@ -25,13 +25,13 @@
 	"icon": "images/ether-debug-icon.png",
 	"categories": [
 		"Debuggers",
-                "Ethereum",
-                "Solidity",
-                "debug",
-                "truffle",
-                "testRPC",
-                "contracts",
-                "smart contracts"
+		"Ethereum",
+		"Solidity",
+		"debug",
+		"truffle",
+		"testRPC",
+		"contracts",
+		"smart contracts"
 	],
 	"private": true,
 	"repository": {
@@ -78,7 +78,7 @@
 		],
 		"debuggers": [
 			{
-				"type": "Solidity",
+				"type": "ether-debug",
 				"label": "Ethereum Debug",
 				"program": "./out/etherDebug.js",
 				"runtime": "node",
@@ -93,7 +93,7 @@
 						"label": "ether Debug: Launch",
 						"description": "A new configuration for launching a solidity program",
 						"body": {
-							"type": "ether",
+							"type": "ether-debug",
 							"request": "launch",
 							"name": "${2:Launch Program}",
 							"program": "^\"\\${workspaceFolder}/${1:Program}\""
