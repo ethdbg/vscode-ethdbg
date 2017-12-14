@@ -5,9 +5,9 @@
 import {
 	Logger, logger,
 	DebugSession, LoggingDebugSession,
-	InitializedEvent, TerminatedEvent, StoppedEvent, BreakpointEvent, OutputEvent,
-	Thread, StackFrame, Scope, Source, Handles, Breakpoint
-} from 'vscode-debugadapter';
+	InitializedEvent, TerminatedEvent, StoppedEvent, BreakpointEvent, OutputEvent, Event,
+	Thread, StackFrame, Scope, Source, Handles, Breakpoint, Variable
+}  from 'vscode-debugadapter';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { basename } from 'path';
 import { EtherRuntime, etherBreakpoint } from './etherRuntime';
@@ -28,7 +28,7 @@ interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
 	trace?: boolean;
 }
 
-class etherDebugSession extends LoggingDebugSession {
+class EtherDebugSession extends LoggingDebugSession {
 
 	// we don't support multiple threads, so we can use a hardcoded ID for the default thread
 	private static THREAD_ID = 1;
@@ -53,16 +53,16 @@ class etherDebugSession extends LoggingDebugSession {
 
 		// setup event handlers
 		this._runtime.on('stopOnEntry', () => {
-			this.sendEvent(new StoppedEvent('entry', etherDebugSession.THREAD_ID));
+			this.sendEvent(new StoppedEvent('entry', EtherDebugSession.THREAD_ID));
 		});
 		this._runtime.on('stopOnStep', () => {
-			this.sendEvent(new StoppedEvent('step', etherDebugSession.THREAD_ID));
+			this.sendEvent(new StoppedEvent('step', EtherDebugSession.THREAD_ID));
 		});
 		this._runtime.on('stopOnBreakpoint', () => {
-			this.sendEvent(new StoppedEvent('breakpoint', etherDebugSession.THREAD_ID));
+			this.sendEvent(new StoppedEvent('breakpoint', EtherDebugSession.THREAD_ID));
 		});
 		this._runtime.on('stopOnException', () => {
-			this.sendEvent(new StoppedEvent('exception', etherDebugSession.THREAD_ID));
+			this.sendEvent(new StoppedEvent('exception', EtherDebugSession.THREAD_ID));
 		});
 		this._runtime.on('breakpointValidated', (bp: etherBreakpoint) => {
 			this.sendEvent(new BreakpointEvent('changed', <DebugProtocol.Breakpoint>{ verified: bp.verified, id: bp.id }));
@@ -144,7 +144,7 @@ class etherDebugSession extends LoggingDebugSession {
 		// runtime supports now threads so just return a default thread.
 		response.body = {
 			threads: [
-				new Thread(etherDebugSession.THREAD_ID, "thread 1")
+				new Thread(EtherDebugSession.THREAD_ID, "thread 1")
 			]
 		};
 		this.sendResponse(response);
@@ -263,4 +263,4 @@ class etherDebugSession extends LoggingDebugSession {
 	}
 }
 
-DebugSession.run(etherDebugSession);
+DebugSession.run(EtherDebugSession);
