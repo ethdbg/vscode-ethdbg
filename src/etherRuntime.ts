@@ -10,13 +10,22 @@
 
 import { readFileSync } from 'fs';
 import { EventEmitter } from 'events';
-/// <reference path="./../ethdbg/lib/debugger.d.ts" />
-import Debugger from './../ethdbg/lib/debugger';
 
 export interface etherBreakpoint {
 	id: number;
 	line: number;
 	verified: boolean;
+}
+
+export interface stackframe {
+	text: string;
+	file: string;
+	line: number;
+}
+
+export interface variable {
+	name: string;
+	value: number;
 }
 
 /**
@@ -32,7 +41,6 @@ export class EtherRuntime extends EventEmitter {
 
 	// the contents (= lines) of the one and only file
 	private _sourceLines: string[];
-	private _debugger: Debugger;
 
 	// This is the next line that will be 'executed'
 	private _currentLine = 0;
@@ -49,7 +57,17 @@ export class EtherRuntime extends EventEmitter {
 	}
 
 	public getContext() {
-		return this._debugger.getContext();
+		/*
+		var variables: Array<variable>;
+		var stack: Array<stackframe>;
+
+
+
+		return {
+			'variables': variables,
+			'stack': stack,
+		}
+		*/
 	}
 
 	/**
@@ -58,7 +76,6 @@ export class EtherRuntime extends EventEmitter {
 	public start(program: string, stopOnEntry: boolean) {
 
 		this.loadSource(program);
-		this._debugger = new Debugger({'path': program});
 		this._currentLine = -1;
 
 		if (stopOnEntry) {
@@ -81,7 +98,6 @@ export class EtherRuntime extends EventEmitter {
 	 * Step to the next/previous non empty line.
 	 */
 	public step(reverse = false, event = 'stopOnStep') {
-		this._debugger.stepInto();
 		this.run(reverse, event);
 	}
 
@@ -92,7 +108,7 @@ export class EtherRuntime extends EventEmitter {
 
 		// TODO This just needs to pull a stack trace from a context object.
 
-		const stack = this._debugger.getContext().stack;
+		const stack = this.getContext().stack;
 
 		const frames = new Array<any>();
 		// every word of the current line becomes a stack frame.
@@ -120,7 +136,6 @@ export class EtherRuntime extends EventEmitter {
 		if (!bps) {
 			bps = new Array<etherBreakpoint>();
 			this._breakPoints.set(path, bps);
-			this._debugger.toggleBreakpoint(path, line);
 		}
 		bps.push(bp);
 
@@ -137,7 +152,6 @@ export class EtherRuntime extends EventEmitter {
 			if (index >= 0) {
 				const bp = bps[index];
 				bps.splice(index, 1);
-				this._debugger.toggleBreakpoint(path, line);
 				return bp;
 			}
 		}
@@ -157,7 +171,6 @@ export class EtherRuntime extends EventEmitter {
 		if (this._sourceFile !== file) {
 			this._sourceFile = file;
 			this._sourceLines = readFileSync(this._sourceFile).toString().split('\n');
-			this._debugger.add({ 'path': file });
 		}
 	}
 
