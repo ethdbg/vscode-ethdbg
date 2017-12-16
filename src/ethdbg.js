@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 /**
  * this is what is going to be spawned; hence it does not need to be TS
  */
@@ -46,7 +48,7 @@ loggerLevel: Amount of output to show,
 */
 
 const DebugProvider = './../ethdbg/lib/debug_provider';
-const ethdbg = new DebugProvider(argv);
+const ethdbg = new DebugProvider(process.argv);
 ethdbg.run();
 
 
