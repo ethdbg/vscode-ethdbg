@@ -103,7 +103,9 @@ class EtherDebugSession extends LoggingDebugSession {
 
 		this.sendResponse(response);
 	}
-
+  /**
+   * launches the debugger
+   */
 	protected launchRequest(response: DebugProtocol.LaunchResponse, args: LaunchRequestArguments): void {
 
 		// make sure to 'Stop' the buffered logging if 'trace' is not set

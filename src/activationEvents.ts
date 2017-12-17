@@ -11,6 +11,8 @@ const initialConfigurations = {
     request: 'launch',
     program: '${file}',
     stopOnEntry: true,
+    stopOnAllBreakpoints: true,
+    execArgs: ['--log-level', '5', 'fork', 'true', 'port', 8545],
     trace: false,
   }
 ]}

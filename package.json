@@ -28,6 +28,16 @@
                 "description": "Absolute path to a text file.",
                 "type": "string"
               },
+              "stopOnAllBreakpoints" {
+                "default": true,
+                "description": "Stop on all breakpoints in all files",
+                "type": "boolean"
+              },
+              "execArgs": {
+                "type": "array",
+                "description": "List of arguments passed on to the executable.",
+                "default": []
+              },
               "stopOnEntry": {
                 "default": true,
                 "description": "Automatically stop after launch.",
@@ -42,24 +52,12 @@
             "required": ["program"]
           }
         },
-        "initialConfigurations": [
-          {
-            "name": "Ask for file name",
-            "program": "${workspaceFolder}/${command:AskForContractFile}",
-            "request": "launch",
-            "stopOnEntry": true,
-            "type": "ether-debug"
-          }
-        ],
         "label": "Ethereum Debug",
         "languages": ["solidity"],
         "program": "./out/etherDebug.js",
         "runtime": "node",
         "type": "ether-debug",
-        "variables": {
-          "AskForContractFile": "extension.ether-debug.getContractFile",
-          "initialConfigurations": "extension.ether-debug.provideInitialConfigurations"
-        }
+        "initialConfigurations": "extension.ether-debug.provideInitialConfigurations"
       }
     ]
   },
