@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+const { DebugProvider, EthdbgError } = require('./../ethdbg/index');
 
 /**
  * this is what is going to be spawned; hence it does not need to be TS
@@ -47,8 +48,12 @@ loggerLevel: Amount of output to show,
   a Level of '5' will also print error levels 1-4, level of 4, 1-3, and so on.
 */
 
-const DebugProvider = './../ethdbg/lib/debug_provider';
-const ethdbg = new DebugProvider(process.argv);
-ethdbg.run();
-
+(() => {
+  try {
+    const ethdbg = new DebugProvider({loggerLevel: 6, fork: false, port: 8545});
+    ethdbg.run();
+  } catch (err) {
+    throw new EthdbgError(`Error in ethdbg ${err}`);
+  }
+ })();
 
