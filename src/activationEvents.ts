@@ -11,6 +11,7 @@ const initialConfigurations = {
     request: 'launch',
     program: '${file}',
     stopOnEntry: true,
+    trace: false,
   }
 ]}
 

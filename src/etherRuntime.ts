@@ -1,7 +1,3 @@
-/*---------------------------------------------------------
- * Copyright (C) Microsoft Corporation. All rights reserved.
- *--------------------------------------------------------*/
-
 /**
  * @file
  * Modified under the MIT.
@@ -57,8 +53,8 @@ export class EtherRuntime extends EventEmitter {
 	}
 
 	public getContext() {
-		var variables: Array<variable> = new Array();
-		var stack: Array<stackframe> = new Array();
+		let variables: Array<variable> = new Array();
+		let stack: Array<stackframe> = new Array();
 
 		return {
 			'variables': variables,

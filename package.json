@@ -23,7 +23,7 @@
         "configurationAttributes": {
           "launch": {
             "properties": {
-              "contract": {
+              "program": {
                 "default": "${workspaceFolder}/${command:AskForContractFile}",
                 "description": "Absolute path to a text file.",
                 "type": "string"
@@ -48,7 +48,7 @@
             "program": "${workspaceFolder}/${command:AskForContractFile}",
             "request": "launch",
             "stopOnEntry": true,
-            "type": "ether"
+            "type": "ether-debug"
           }
         ],
         "label": "Ethereum Debug",

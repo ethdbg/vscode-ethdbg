@@ -1,6 +1,4 @@
-/*---------------------------------------------------------
- * Copyright (C) Microsoft Corporation. All rights reserved.
- *--------------------------------------------------------*/
+/// <reference types="node" />
 
 import {
 	Logger, logger,
@@ -19,7 +17,8 @@ import { EtherRuntime, etherBreakpoint } from './etherRuntime';
  * The schema for these attributes lives in the package.json of the ether-debug extension.
  * The interface should always match this schema.
  */
-interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
+export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
+  request: string,
 	/** An absolute path to the "program" to debug. */
 	program: string;
 	/** Automatically stop target after launch. If not specified, target does not stop. */
