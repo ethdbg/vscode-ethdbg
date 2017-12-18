@@ -18,9 +18,12 @@ import { EtherRuntime, etherBreakpoint } from './etherRuntime';
  * The interface should always match this schema.
  */
 export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArguments {
-  request: string,
 	/** An absolute path to the "program" to debug. */
-	program: string;
+  program: string;
+  /** when the debugger is started, it will gather all breakpoints in all files, instead of just one **/
+  stopOnAllBreakpoints: boolean;
+  /** arguments passed to the debugger library on launch **/
+  execArgs: Array<string>;
 	/** Automatically stop target after launch. If not specified, target does not stop. */
 	stopOnEntry?: boolean;
 	/** enable logging the Debug Adapter Protocol */
@@ -87,7 +90,7 @@ class EtherDebugSession extends LoggingDebugSession {
 		// since this debug adapter can accept configuration requests like 'setBreakpoint' at any time,
 		// we request them early by sending an 'initializeRequest' to the frontend.
 		// The frontend will end the configuration sequence by calling 'configurationDone' request.
-		this.sendEvent(new InitializedEvent());
+		this.sendEvent(new InitializedEvent())
 
 		// build and return the capabilities of this debug adapter:
 		response.body = response.body || {};
@@ -99,7 +102,7 @@ class EtherDebugSession extends LoggingDebugSession {
 		response.body.supportsEvaluateForHovers = true;
 
 		// make VS Code to show a 'step back' button
-		response.body.supportsStepBack = true;
+		response.body.supportsStepBack = false;
 
 		this.sendResponse(response);
 	}

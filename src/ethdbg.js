@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 // const { DebugProvider } = require('./../ethdbg/index');
-const DebugProvider = require('./../../../lib/debug_provider');
+// TODO remove alot of the boilerplate by moving it into ethdbg main
+const DebugProvider = require('./../ethdbg/index');
 const yargs = require('yargs');
 
 /**
