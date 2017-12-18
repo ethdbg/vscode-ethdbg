@@ -28,6 +28,9 @@ export class StreamCatcher extends EventEmitter {
     
     // set up parsing events into internalEvents
     this.output.on('data', this.dataIn);
+    this.output.on('message', (msg) => {
+      console.log(msg); // regular output is logged to the Vscode console
+    });
 
     this.internalEvents.on(events.hitBreakpoint, (evObj) => {
       this.emit(events.hitBreakpiont, evObj);

@@ -1,8 +1,9 @@
 // the link between VSCode and Ethereum Debug
-import fs from 'fs';
+import * as fs from 'fs';
 import {join. dirname, sep} from 'path';
 import {spawn} from 'child_process';
 import {StreamParser} from './streamCatcher';
+import {events} from './../ethdbg/index';
 
 function absoluteFilename(root: string, filename: string): string {
   if (fs.existsSync(filename)) {
@@ -65,6 +66,9 @@ export class EthereumDebuggerConnection {
       this.logOutput( err );
       this.logOutput( `DUMP: spawn(${args})`);
     });
+
+    this.streamParser.launch(this.ethDebugger.stdin, this.ethDebugger.stdout);
+
   }
 
 }
