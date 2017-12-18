@@ -1,23 +1,9 @@
 // the link between VSCode and Ethereum Debug
 import * as fs from 'fs';
-import {join. dirname, sep} from 'path';
+import {join, dirname, sep} from 'path';
 import {spawn} from 'child_process';
 import {StreamParser} from './streamCatcher';
 import {events} from './../ethdbg/index';
-// should handle file paths
-
-function absoluteFilename(root: string, filename: string): string {
-  if (fs.existsSync(filename)) {
-    return filename;
-  }
-
-  const fullPath= join(root, filename);
-  if (fs.existsSync(fullPath)) {
-    return fullPath;
-  }
-
-  return join(root, filename);
-}
 
 export class EthereumDebuggerConnection {
   public debug: boolean = false;
@@ -134,5 +120,37 @@ export class EthereumDebuggerConnection {
       this.ethDebugger.kill();
       this.ethDebugger = null;
     }
+  }
+
+  absoluteFilename(root: string, filename: string): string {
+    // if it's already absolute then return
+    if (fs.existsSync(filename)) {
+      return filename;
+    }
+    //otherwise assume it's a relative filename
+    const fullPath = join(root, filename);
+    if (fs.existsSync(fullPath)) {
+      return fullPath;
+    }
+    // xxx: we might want to resolve module names later on
+    // using this.resolveFilename, for now we just return the joined path
+    return join(root, filename);
+  }
+
+  relativeFilename(root: string, filename: string): string {
+    // If already relative to root
+    if (fs.existsSync(join(root, filename))) {
+      return filename;
+    }
+    // Try to create relative filename
+    // ensure trailing separator in root path eg. /foo/
+    const relName = filename.replace(root, '').replace(/^[\/|\\]/, '');
+    if (fs.existsSync(join(root, relName))) {
+      return relName;
+    }
+
+    // We might need to add more cases
+    return filename;
+
   }
 }

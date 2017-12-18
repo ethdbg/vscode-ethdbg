@@ -28,7 +28,7 @@
                 "description": "Absolute path to a text file.",
                 "type": "string"
               },
-              "stopOnAllBreakpoints" {
+              "stopOnAllBreakpoints": {
                 "default": true,
                 "description": "Stop on all breakpoints in all files",
                 "type": "boolean"

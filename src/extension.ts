@@ -1,5 +1,3 @@
-'use strict';
-
 import * as vscode from 'vscode';
 import { WorkspaceFolder, DebugConfiguration, ProviderResult, CancellationToken } from 'vscode';
 import * as events from './activationEvents';
@@ -63,5 +61,6 @@ class EtherConfigurationProvider implements vscode.DebugConfigurationProvider {
       return undefined;	// abort launch
     });
   }
-  return config;
+    return config;
+  }
 }

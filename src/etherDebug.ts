@@ -154,7 +154,7 @@ class EtherDebugSession extends LoggingDebugSession {
   protected threadsRequest(response: DebugProtocol.ThreadsResponse): void {
     response.body = {
       threads: [
-        new Thread(EtherDebugSession.THREAD_ID, "thread 1");
+        new Thread(EtherDebugSession.THREAD_ID, "thread 1"),
       ]
     };
   }
@@ -200,74 +200,56 @@ class EtherDebugSession extends LoggingDebugSession {
 /** implemented **/
 
 	protected setBreakPointsRequest(response: DebugProtocol.SetBreakpointsResponse, args: DebugProtocol.SetBreakpointsArguments): void {
+    
+    let path = args.source.path;
+    let clientLines = args.lines;
 
-		const path = <string>args.source.path;
-		const clientLines = args.lines || [];
-
-		// send back the actual breakpoint positions
-		response.body = {
-			breakpoints: actualBreakpoints
-		};
-		this.sendResponse(response);
+    this.sendEvent(new OutputEvent(`ERR>Reverse continue not implemented\n\n`));
+    this.sendResponse(response);
 	}
 
 
 	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments): void {
+	  this.sendEvent(new OutputEvent(`ERR>Reverse continue not implemented\n\n`));
 
-		const startFrame = typeof args.startFrame === 'number' ? args.startFrame : 0;
-		const maxLevels = typeof args.levels === 'number' ? args.levels : 1000;
-		const endFrame = startFrame + maxLevels;
+    this.sendResponse(response);
 
-		response.body = {
-			stackFrames: stk.frames.map(f => new StackFrame(f.index, f.name, this.createSource(f.file), this.convertDebuggerLineToClient(f.line))),
-			totalFrames: stk.count
-		};
-		this.sendResponse(response);
+    this._currentLine = 0;
+    this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
 	}
 
 	protected scopesRequest(response: DebugProtocol.ScopesResponse, args: DebugProtocol.ScopesArguments): void {
+    this.sendEvent(new OutputEvent(`ERR>Reverse continue not implemented\n\n`));
 
-		const frameReference = args.frameId;
-		const scopes = new Array<Scope>();
-		scopes.push(new Scope("Local", this._variableHandles.create("local_" + frameReference), false));
-		scopes.push(new Scope("Global", this._variableHandles.create("global_" + frameReference), true));
+    this.sendResponse(response);
 
-		response.body = {
-			scopes: scopes
-		};
-		this.sendResponse(response);
+    this._currentLine = 0;
+    this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
 	}
 
 	protected variablesRequest(response: DebugProtocol.VariablesResponse, args: DebugProtocol.VariablesArguments): void {
+    this.sendEvent(new OutputEvent(`ERR>variables Request not implemented\n\n`));
 
-		// TODO This just needs to pull the variable info from a context object.
-
-		const variables = new Array<DebugProtocol.Variable>();
-
-		response.body = {
-			variables: variables
-		};
-		this.sendResponse(response);
+    this.sendResponse(response);
 	}
 
-	protected continueRequest(response: DebugProtocol.ContinueResponse, args: DebugProtocol.ContinueArguments): void {
-		this.sendResponse(response);
+  protected continueRequest(response: DebugProtocol.ContinueResponse, args: DebugProtocol.ContinueArguments): void {
+    this.sendEvent(new OutputEvent(`ERR> continue not implemented\n\n`));
+
+    this.sendResponse(response);
 	}
 
 
-	protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
-		this.sendResponse(response);
+  protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
+    this.sendEvent(new OutputEvent(`ERR>nextRequest not implemented\n\n`));
+
+    this.sendResponse(response);
 	}
 
 	protected evaluateRequest(response: DebugProtocol.EvaluateResponse, args: DebugProtocol.EvaluateArguments): void {
+	  this.sendEvent(new OutputEvent(`ERR>evaluateRequest not implemented\n\n`));
 
-		let reply: string | undefined = undefined;
-
-		response.body = {
-			result: reply ? reply : `evaluate(context: '${args.context}', '${args.expression}')`,
-			variablesReference: 0
-		};
-		this.sendResponse(response);
+    this.sendResponse(response);
 	}
 
 	//---- helpers
