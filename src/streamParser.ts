@@ -41,8 +41,12 @@ export class StreamCatcher extends EventEmitter {
     this.input.write(this.serialize(ev, data));
   }
 
-  public isReady() {
+  public isReady(): Promise<string> {
     return new Promise(resolve => this.onReady(res => resolve(res)));
+  }
+
+  public destroy() {
+    return Promise.resolve();
   }
   
   private onReady(f) {
@@ -82,7 +86,6 @@ export class StreamCatcher extends EventEmitter {
       event, 
       data,
     };
-  
   }
   
   /** trims _all_ zeros from a string
