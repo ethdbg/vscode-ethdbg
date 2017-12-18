@@ -54,6 +54,7 @@ class EtherConfigurationProvider implements vscode.DebugConfigurationProvider {
       config.program = '${file}';
       config.stopOnEntry = true;
       config.stopOnAllBreakpoints = true;
+      config.execArgs = ['--log-level', '5', 'fork', 'true', 'port', 8545];
     }
   }
 
