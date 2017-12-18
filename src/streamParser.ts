@@ -10,7 +10,7 @@ interface Response {
 export class StreamParser extends EventEmitter {
   public input: Writable;
   public output: Readable;
-  private ready: boolean;
+  public ready: boolean;
   private readyListeners: Array<Function>;
   private internalEvents: EventEmitter;
   constructor() {

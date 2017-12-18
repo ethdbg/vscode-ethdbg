@@ -13,7 +13,7 @@ const initialConfigurations = {
     root: '${workspaceRoot}' + path.sep,
     stopOnEntry: true,
     stopOnAllBreakpoints: true,
-    execArgs: ['--log-level', '5', 'fork', 'true', 'port', 8545],
+    execArgs: [],
     trace: false,
   }
 ]}

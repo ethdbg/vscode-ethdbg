@@ -23,11 +23,11 @@ export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArgum
   /** workspace path **/
   root: string,
   /** List of includes **/
-  inc?: string,
+  inc?: string[],
   /** when the debugger is started, it will gather all breakpoints in all files, instead of just one **/
   stopOnAllBreakpoints: boolean;
   /** arguments passed to the debugger library on launch **/
-  execArgs: Array<string>;
+  execArgs: string[];
 	/** Automatically stop target after launch. If not specified, target does not stop. */
 	stopOnEntry?: boolean;
 	/** enable logging the Debug Adapter Protocol */
@@ -39,12 +39,12 @@ class EtherDebugSession extends LoggingDebugSession {
 	// we don't support multiple threads, so we can use a hardcoded ID for the default thread
   private static THREAD_ID = 1;
 
-  private _currentLine = 0;
+  private __currentLine = 0;
   private get _currentLine() : number {
-    return this._currentLine;
+    return this.__currentLine;
   }
   private set _currentLine(line: number) {
-    this._currentLine = line;
+    this.__currentLine = line;
   }
 
 	private _variableHandles = new Handles<string>();
@@ -120,7 +120,9 @@ class EtherDebugSession extends LoggingDebugSession {
 
     this.rootPath = args.root;
     // don't worry about this for now TODO add directories for inclusion
-    const inc = args.inc && args.inc.length ? args.inc.map(directory => `${directory}`) : [];
+    const inc = args.inc && 
+    args.inc.length ? args.inc.map(directory => `${directory}`) : [];
+
     const execArgs = [].concat(args.execArgs || [], inc);
     
     if (args.trace) {

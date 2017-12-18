@@ -1,8 +1,8 @@
 // the link between VSCode and Ethereum Debug
 import * as fs from 'fs';
-import {join, dirname, sep} from 'path';
+import {join} from 'path';
 import {spawn} from 'child_process';
-import {StreamParser} from './streamCatcher';
+import {StreamParser} from './streamParser';
 import {events} from './../ethdbg/index';
 
 export class EthereumDebuggerConnection {
@@ -89,29 +89,29 @@ export class EthereumDebuggerConnection {
   }
 
   clearAllBreakpoints() {
-    this.streamParser.request(events.clearAllBreakpoints);
+    this.streamParser.request(events.clearAllBreakpoints, null);
   }
   
   continue() {
-    this.streamParser.request(events.continue);
+    this.streamParser.request(events.continue, null);
   }
 
   stepIn() {
-    this.streamParser.request(events.stepIn);
+    this.streamParser.request(events.stepIn, null);
   }
 
   stepOut() {
-    this.streamParser.request(events.stepOut);
+    this.streamParser.request(events.stepOut, null);
   }
   
   // needs to be async TODO
   restart() {
-    this.streamParser.request(events.restart);
+    this.streamParser.request(events.restart, null);
   }
 
   // needs to be async TODO
   getVariableList() {
-    this.streamParser.request(events.getVarList);
+    this.streamParser.request(events.getVarList, null);
   }
 
   destroy() {
