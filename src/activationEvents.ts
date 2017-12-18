@@ -1,5 +1,6 @@
 'use strict';
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 /** activation events must mirror package.json vscode-ext debugger schema */
 
@@ -9,7 +10,8 @@ const initialConfigurations = {
   {
     type: 'ether-debug',
     request: 'launch',
-    program: '${file}',
+    program: '${workspaceRoot}' + path.sep,
+    root: '${workspaceRoot}' + path.sep,
     stopOnEntry: true,
     stopOnAllBreakpoints: true,
     execArgs: ['--log-level', '5', 'fork', 'true', 'port', 8545],

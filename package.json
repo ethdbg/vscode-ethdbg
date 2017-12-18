@@ -33,6 +33,11 @@
                 "description": "Stop on all breakpoints in all files",
                 "type": "boolean"
               },
+              "inc": {
+                "type": "array",
+                "description": "List of include directories",
+                "default": []
+              },
               "execArgs": {
                 "type": "array",
                 "description": "List of arguments passed on to the executable.",
@@ -49,7 +54,10 @@
                 "type": "boolean"
               }
             },
-            "required": ["program"]
+            "required": [
+              "program",
+              "root"
+            ]
           }
         },
         "label": "Ethereum Debug",

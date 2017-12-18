@@ -7,7 +7,7 @@ interface Response {
   data?: Object;
 }
 
-export class StreamCatcher extends EventEmitter {
+export class StreamParser extends EventEmitter {
   public input: Writable;
   public output: Readable;
   private ready: boolean;

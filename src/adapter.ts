@@ -29,10 +29,13 @@ export class EthereumDebuggerConnection {
   public onError: Function | null = null;
   public onClose: Function | null = null;
   public onException: Function | null = null;
+  public onTermination: Function | null = null;
 
   constructor() {
     this.streamParser = new StreamParser();
   }
+
+  async initializeRequest() {}
   
   logOutput(data: string) {
     if (typeof this.onOutput === 'function') {
