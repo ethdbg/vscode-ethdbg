@@ -45,7 +45,7 @@ export class EthereumDebuggerConnection {
       this.logOutput(`Error: Folder ${cwd} not found`);
     }
 
-    this.ethDebugger = spawn('./../ethdbg.js',args);
+    this.ethDebugger = spawn('./ethdbg.js',args);
 
     this.ethDebugger.on('error', (err) => {
       if (this.debug) {
@@ -56,7 +56,7 @@ export class EthereumDebuggerConnection {
       this.logOutput( `DUMP: spawn(${args})`);
     });
 
-    this.streamParser.launch(this.ethDebugger.stdin, this.ethDebugger.stdout);
+    this.streamParser.launch(this.ethDebugger.stdin, this.ethDebugger.stdout, this.ethDebugger.stderr);
 
     this.ethDebugger.on('close', (code) => {
       if (this.streamParser.ready) {

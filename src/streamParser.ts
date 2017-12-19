@@ -10,6 +10,7 @@ interface Response {
 export class StreamParser extends EventEmitter {
   public input: Writable;
   public output: Readable;
+  public error: Readable;
   public ready: boolean;
   private readyListeners: Array<Function>;
   private internalEvents: EventEmitter;
@@ -17,6 +18,7 @@ export class StreamParser extends EventEmitter {
     super();
     this.ready = false;
     this.internalEvents = new EventEmitter();
+    this.readyListeners = new Array();
     this.internalEvents.on(events.ready, () => {
       this.ready = true;
       this.readyListeners.forEach(f => f('Ethereum Debugger Ready'));
@@ -24,16 +26,34 @@ export class StreamParser extends EventEmitter {
     console.log('get into the constructor of StreamParser');
   }
 
-  public launch(stdin: Writable, stdout: Readable) {
+  public launch(stdin: Writable, stdout: Readable, stderr: Readable) {
     console.log('in streamParser launch');
     this.input = stdin;
     this.output = stdout;
+    this.error = stderr;
 
     // set up parsing events into internalEvents
-    this.output.on('data', this.dataIn);
-    this.output.on('message', (msg) => {
-      console.log(msg); // regular output is logged to the Vscode console
+    this.output.on('message', this.dataIn.bind(this));
+
+    this.output.on('data', (msg) => {
+      console.log(msg.toString()); // regular output is logged to the Vscode console
     });
+
+    this.output.on('error', (err) =>  {
+       console.log(`[ETHDBG][ERR]: ${err}`);
+    });
+
+    // debugging
+    this.output.on('message', (msg) => {
+      console.log(msg);
+    });
+
+    this.error.on('data', (data) => {
+      console.log(`[ETHDBG][ERROR]: ${data}`);
+    });
+    this.error.on('message', (msg) => {
+       console.log(`[ETHDBG][MSG]: ${msg}`);
+    })
 
     this.internalEvents.on(events.hitBreakpoint, (evObj) => {
       this.emit(events.hitBreakpoint, evObj);
@@ -61,7 +81,9 @@ export class StreamParser extends EventEmitter {
   }
 
   private dataIn(data: string) {
+    console.log(data.toString());
     const res = this.deserialize(data);
+    console.log(`emitting event: ${res.event} ${res.data}`);
     this.internalEvents.emit(res.event, res.data);
   }
   /**

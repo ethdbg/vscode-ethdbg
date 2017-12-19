@@ -89,7 +89,8 @@
   ],
   "dependencies": {
     "vscode-debugadapter": "^1.25.0-pre.0",
-    "vscode-debugprotocol": "^1.25.0-pre.0"
+    "vscode-debugprotocol": "^1.25.0-pre.0",
+    "yargs": "^10.0.3"
   },
   "description": "An Ethereum Solidity debugger for developing smart contracts in VSCode",
   "devDependencies": {

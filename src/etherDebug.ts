@@ -72,21 +72,21 @@ class EtherDebugSession extends LoggingDebugSession {
   : void {
 
     this.ethDebugger.onException = (res) => {
-      console.log('ETHDBG ERROR: encountered Exception');
+      console.debug('ETHDBG ERROR: encountered Exception');
       const [ error ] = res.errors;
       this.sendEvent(new OutputEvent(`on exception ${error && error.near}`));
     }
 
     this.ethDebugger.onTermination = (res) => {
-      console.log('ETHDBG ERROR: encountered Termination');
+      console.debug('ETHDBG ERROR: encountered Termination');
       this.sendEvent(new TerminatedEvent());
     };
 
     this.ethDebugger.onClose = (code) => {
-      console.log(`ETHDBG: closing with code ${code}`)
+      console.debug(`ETHDBG: closing with code ${code}`)
       this.sendEvent(new TerminatedEvent());
     }
-    
+
     console.log("Initializing the debugger...");
     this.ethDebugger.initializeRequest()
       .then(() => {
