@@ -88,6 +88,8 @@
     }
   ],
   "dependencies": {
+    "@types/byline": "^4.2.31",
+    "byline": "^5.0.0",
     "vscode-debugadapter": "^1.25.0-pre.0",
     "vscode-debugprotocol": "^1.25.0-pre.0",
     "yargs": "^10.0.3"

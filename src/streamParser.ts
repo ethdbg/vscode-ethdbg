@@ -1,6 +1,8 @@
+import {ReadLine, createInterface } from 'readline';
 import {Writable, Readable} from 'stream';
 import {EventEmitter} from 'events';
 import {events} from './types';
+import * as byline from 'byline';
 
 interface Response {
   event: string;
@@ -13,13 +15,11 @@ export class StreamParser extends EventEmitter {
   public error: Readable;
   public ready: boolean;
   private readyListeners: Array<Function>;
-  private internalEvents: EventEmitter;
   constructor() {
     super();
     this.ready = false;
-    this.internalEvents = new EventEmitter();
     this.readyListeners = new Array();
-    this.internalEvents.on(events.ready, () => {
+    this.on(events.ready, () => {
       this.ready = true;
       this.readyListeners.forEach(f => f('Ethereum Debugger Ready'));
     });
@@ -32,12 +32,15 @@ export class StreamParser extends EventEmitter {
     this.output = stdout;
     this.error = stderr;
 
-    // set up parsing events into internalEvents
-    this.output.on('message', this.dataIn.bind(this));
-
+    /*
     this.output.on('data', (msg) => {
-      console.log(msg.toString()); // regular output is logged to the Vscode console
+      console.log('START DATA');
+      console.log(`DATA: ${msg}`);
+      console.log('END DATA');
     });
+    */
+    this.output = byline(this.output);
+    this.output.on('data', this.dataIn.bind(this)); // this is where we recieve our messages
 
     this.output.on('error', (err) =>  {
        console.log(`[ETHDBG][ERR]: ${err}`);
@@ -45,31 +48,20 @@ export class StreamParser extends EventEmitter {
 
     // debugging
     this.output.on('message', (msg) => {
-      console.log(msg);
+      console.log('message msg from stdout [this should not happen]: ' + msg);
     });
 
     this.error.on('data', (data) => {
       console.log(`[ETHDBG][ERROR]: ${data}`);
     });
+
     this.error.on('message', (msg) => {
        console.log(`[ETHDBG][MSG]: ${msg}`);
     })
-
-    this.internalEvents.on(events.hitBreakpoint, (evObj) => {
-      this.emit(events.hitBreakpoint, evObj);
-    });
   }
 
   public request(ev, data) {
     this.input.write(this.serialize(ev, data));
-  }
-
-  public isReady(): Promise<string> {
-    return new Promise(resolve => this.onReady(res => resolve(res)));
-  }
-
-  public destroy() {
-    return Promise.resolve();
   }
 
   private onReady(f) {
@@ -80,11 +72,17 @@ export class StreamParser extends EventEmitter {
     }
   }
 
+  public isReady(): Promise<string> {
+    return new Promise(resolve => this.onReady(res => resolve(res)));
+  }
+
+  public destroy() {
+    return Promise.resolve();
+  }
+
   private dataIn(data: string) {
-    console.log(data.toString());
     const res = this.deserialize(data);
-    console.log(`emitting event: ${res.event} ${res.data}`);
-    this.internalEvents.emit(res.event, res.data);
+    this.emit(res.event, res.data);
   }
   /**
    * puts an event, and the data for the event into a string format
@@ -102,10 +100,23 @@ export class StreamParser extends EventEmitter {
       msg = msg.toString();
     }
     else if (!(typeof msg === 'string')) {
-      throw new Error('Cannot deserialize data which is not a String');
+      throw new Error('Cannot deserialize data which is not a String or Buffer');
     }
-    const event = this.trimZeros(msg.substr(0, 32));
-    const data = msg.length > 32 ? JSON.parse(msg.substr(33)) : null;
+    const event:string = this.trimZeros(msg.substr(0, 32));
+    console.log("EVENT: " + event);
+    // if not a valid event, we assume it is a console message meant for the user
+    // TODO: adjust input/output streams in ethdbg main to differentiate between
+    // regular log output and actual debugger events
+    if (!(event in events) && event != '\n') {
+      return {
+        event: "message",
+        data: msg,
+      };
+    }
+
+    let test = msg.substr(32);
+    let test2 = msg.substr(33);
+    const data = (msg.substr(32) != 'null' && msg.substr(32) != 'undefined') ? JSON.parse(msg.substr(32)) : null;
 
     return {
       event,

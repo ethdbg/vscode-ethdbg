@@ -73,6 +73,11 @@ export class EthereumDebuggerConnection {
         }
       }
     });
+
+    this.streamParser.on('message', (msg) => {
+      console.log(msg);
+    });
+
     await this.streamParser.isReady();
     return;
   }
