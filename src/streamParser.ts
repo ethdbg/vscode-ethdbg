@@ -16,16 +16,19 @@ export class StreamParser extends EventEmitter {
   constructor() {
     super();
     this.ready = false;
+    this.internalEvents = new EventEmitter();
     this.internalEvents.on(events.ready, () => {
       this.ready = true;
       this.readyListeners.forEach(f => f('Ethereum Debugger Ready'));
     });
+    console.log('get into the constructor of StreamParser');
   }
- 
+
   public launch(stdin: Writable, stdout: Readable) {
+    console.log('in streamParser launch');
     this.input = stdin;
     this.output = stdout;
-    
+
     // set up parsing events into internalEvents
     this.output.on('data', this.dataIn);
     this.output.on('message', (msg) => {
@@ -48,7 +51,7 @@ export class StreamParser extends EventEmitter {
   public destroy() {
     return Promise.resolve();
   }
-  
+
   private onReady(f) {
     if (this.ready) {
       f('Ethereum Debugger ready');
@@ -56,7 +59,7 @@ export class StreamParser extends EventEmitter {
       this.readyListeners.push(f);
     }
   }
-  
+
   private dataIn(data: string) {
     const res = this.deserialize(data);
     this.internalEvents.emit(res.event, res.data);
@@ -83,11 +86,11 @@ export class StreamParser extends EventEmitter {
     const data = msg.length > 32 ? JSON.parse(msg.substr(33)) : null;
 
     return {
-      event, 
+      event,
       data,
     };
   }
-  
+
   /** trims _all_ zeros from a string
    * @param{string} str - string to trim zeros from
    * @param{number} len - length of string

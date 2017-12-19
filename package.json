@@ -88,9 +88,6 @@
     }
   ],
   "dependencies": {
-    "@types/hashmap": "^2.0.29",
-    "hashmap": "^2.3.0",
-    "solc": "^0.4.19",
     "vscode-debugadapter": "^1.25.0-pre.0",
     "vscode-debugprotocol": "^1.25.0-pre.0"
   },
@@ -107,8 +104,8 @@
   },
   "displayName": "Ethereum Debug",
   "engines": {
-    "node": "^7.9.0",
-    "vscode": "^1.17.0"
+    "node": "^8.9.3",
+    "vscode": "^1.19.0"
   },
   "icon": "images/ether-debug-icon.png",
   "keywords": [

@@ -7,6 +7,7 @@ const initialConfigurations = {
   version: '0.0.1',
   configurations: [
   {
+    name: "Solidity Debug",
     type: 'ether-debug',
     request: 'launch',
     program: '${workspaceRoot}' + path.sep + '${relativeFile}',

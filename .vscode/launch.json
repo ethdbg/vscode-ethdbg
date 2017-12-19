@@ -36,13 +36,6 @@
 			"outFiles": [ "${workspaceFolder}/out/**/*.js" ],
 			"internalConsoleOptions": "openOnSessionStart"
 		},
-		{
-			"type": "ether",
-			"request": "launch",
-			"name": "ether Sample",
-			"program": "${workspaceFolder}/${command:AskForProgramName}",
-			"stopOnEntry": true
-		}
 	],
 	"compounds": [
 		{

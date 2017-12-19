@@ -35,10 +35,8 @@ export interface LaunchRequestArguments extends DebugProtocol.LaunchRequestArgum
 }
 
 class EtherDebugSession extends LoggingDebugSession {
-
 	// we don't support multiple threads, so we can use a hardcoded ID for the default thread
   private static THREAD_ID = 1;
-
   private __currentLine = 0;
   private get _currentLine() : number {
     return this.__currentLine;
@@ -56,7 +54,8 @@ class EtherDebugSession extends LoggingDebugSession {
 	 * We configure the default implementation of a debug adapter here.
 	 */
 	public constructor() {
-		super("ether-debug.txt");
+    super("ether-debug.txt");
+    console.log('get into the constructor of EtherDebugSession');
 
 		// this debugger uses zero-based lines and columns
 		this.setDebuggerLinesStartAt1(false);
@@ -68,23 +67,27 @@ class EtherDebugSession extends LoggingDebugSession {
 	 * to interrogate the features the debug adapter provides.
 	 */
   protected initializeRequest(
-    response: DebugProtocol.InitializeResponse, 
+    response: DebugProtocol.InitializeResponse,
     args: DebugProtocol.InitializeRequestArguments)
   : void {
-    
+
     this.ethDebugger.onException = (res) => {
+      console.log('ETHDBG ERROR: encountered Exception');
       const [ error ] = res.errors;
       this.sendEvent(new OutputEvent(`on exception ${error && error.near}`));
     }
 
     this.ethDebugger.onTermination = (res) => {
+      console.log('ETHDBG ERROR: encountered Termination');
       this.sendEvent(new TerminatedEvent());
     };
 
     this.ethDebugger.onClose = (code) => {
+      console.log(`ETHDBG: closing with code ${code}`)
       this.sendEvent(new TerminatedEvent());
     }
-  
+    
+    console.log("Initializing the debugger...");
     this.ethDebugger.initializeRequest()
       .then(() => {
         // since this debug adapter can accept configuration requests like 'setBreakpoint' at any time,
@@ -106,7 +109,7 @@ class EtherDebugSession extends LoggingDebugSession {
 
         response.body.supportsFunctionBreakpoints = false;
 
-        this.sendResponse(response);     
+        this.sendResponse(response);
       });
   }
 
@@ -114,23 +117,23 @@ class EtherDebugSession extends LoggingDebugSession {
    * launches the debugger
    */
   protected launchRequest(
-    response: DebugProtocol.LaunchResponse, 
+    response: DebugProtocol.LaunchResponse,
     args: LaunchRequestArguments)
   : void {
 
     this.rootPath = args.root;
     // don't worry about this for now TODO add directories for inclusion
-    const inc = args.inc && 
+    const inc = args.inc &&
     args.inc.length ? args.inc.map(directory => `${directory}`) : [];
 
     const execArgs = [].concat(args.execArgs || [], inc);
-    
+
     if (args.trace) {
       logger.setup(Logger.LogLevel.Verbose, /*logToFile=*/true);
     } else {
       logger.setup(Logger.LogLevel.Stop, false);
     }
-   
+
     /// TODO: implement stop on entry in Eth debugger
     this.ethDebugger.launchRequest(args.program, execArgs)
       .then((res) => {
@@ -145,7 +148,7 @@ class EtherDebugSession extends LoggingDebugSession {
         } else {
           // continue until hit breakpoint
           this.continueRequest(
-            <DebugProtocol.ContinueResponse>response, 
+            <DebugProtocol.ContinueResponse>response,
             { threadId: EtherDebugSession.THREAD_ID}
           );
         }
@@ -197,12 +200,12 @@ class EtherDebugSession extends LoggingDebugSession {
     this.sendResponse(response);
     this.sendEvent(new StoppedEvent("breakpoint", EtherDebugSession.THREAD_ID));
   }
-  
-  
+
+
 /** implemented **/
 
 	protected setBreakPointsRequest(response: DebugProtocol.SetBreakpointsResponse, args: DebugProtocol.SetBreakpointsArguments): void {
-    
+
     let path = args.source.path;
     let clientLines = args.lines;
 
