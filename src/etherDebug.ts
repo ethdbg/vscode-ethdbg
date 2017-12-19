@@ -87,6 +87,10 @@ class EtherDebugSession extends LoggingDebugSession {
       this.sendEvent(new TerminatedEvent());
     }
 
+    this.ethDebugger.onMessage = (msg) => {
+       this.sendEvent(new OutputEvent(msg + '\n'));
+    }
+
     console.log("Initializing the debugger...");
     this.ethDebugger.initializeRequest()
       .then(() => {
@@ -141,10 +145,9 @@ class EtherDebugSession extends LoggingDebugSession {
           if (res.ln) {
             this._currentLine = res.ln - 1;
           }
-          this.sendResponse(response);
 
           // stop on first line
-          this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
+          // this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
         } else {
           // continue until hit breakpoint
           this.continueRequest(

@@ -107,7 +107,7 @@ export class StreamParser extends EventEmitter {
     // if not a valid event, we assume it is a console message meant for the user
     // TODO: adjust input/output streams in ethdbg main to differentiate between
     // regular log output and actual debugger events
-    if (!(event in events) && event != '\n') {
+    if (!(event in events)) {
       return {
         event: "message",
         data: msg,

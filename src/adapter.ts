@@ -16,6 +16,7 @@ export class EthereumDebuggerConnection {
   public onClose: Function | null = null;
   public onException: Function | null = null;
   public onTermination: Function | null = null;
+  public onMessage: Function | null = null;
 
   constructor() {
     this.streamParser = new StreamParser();
@@ -75,8 +76,16 @@ export class EthereumDebuggerConnection {
     });
 
     this.streamParser.on('message', (msg) => {
-      console.log(msg);
+      if (typeof this.onMessage === 'function') {
+        try {
+           this.onMessage(msg);
+        } catch (err) {
+          throw new Error(`Error in "onMessage" handler: ${err.message}`);
+        }
+      }
     });
+
+
 
     await this.streamParser.isReady();
     return;
