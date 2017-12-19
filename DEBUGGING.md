@@ -26,7 +26,7 @@ note the location of the resulting `vsix` file.
 }
 
 ```
-**Configuration with Execution Arguments for TestRPC**
+**Configuration with Execution Arguments for TestRPC (optional)**
 ```launch.json
 {
   "version": "0.2.0",
