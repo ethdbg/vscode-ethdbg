@@ -1,6 +1,6 @@
 import {Writable, Readable} from 'stream';
 import {EventEmitter} from 'events';
-import {events} from './types'
+import {events} from './../ethdbg/index';
 
 interface Response {
   event: string;

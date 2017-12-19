@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import {join} from 'path';
 import {spawn} from 'child_process';
 import {StreamParser} from './streamParser';
-import {events} from './types';
+import {events} from './../ethdbg/index';
 
 export class EthereumDebuggerConnection {
   public debug: boolean = false;
