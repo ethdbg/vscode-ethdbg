@@ -26,6 +26,28 @@ note the location of the resulting `vsix` file.
 }
 
 ```
+**Configuration with Execution Arguments for TestRPC**
+```launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+      {   
+          "name": "ethdbgTEST",
+          "type": "ether-debug",
+          "request": "launch",
+          "program": "/home/insi/Projects/ETHDBG/test-project/contracts/greeter.sol",
+          "execArgs": ["--fork", false, "--loglvl", "6", "--port", "8545"],
+          "stopOnEntry": false,
+          "trace": false,
+          "stopOnAllBreakpoints": true,
+          "root": "${workspaceRoot}/${relativeFile}",
+          "debugServer": 4711
+      }
+  ]
+}
+
+```
+
 **Debug Configuration**
 - Launch the vscode-ethdbg extension in one window
 - go to left panel and click the debug icon, (a crossed out bug)
