@@ -4,8 +4,13 @@
     "onCommand:extension.ether-debug.getContractFile",
     "onCommand:extension.ether-debug.provideInitialConfigurations"
   ],
-  "author": {"email": "romulus108@protonmail.com", "name": "Sean Batzel"},
-  "bugs": {"url": "https://github.com/ethdbg/vscode-ethdbg/issues"},
+  "author": {
+    "email": "romulus108@protonmail.com",
+    "name": "Sean Batzel"
+  },
+  "bugs": {
+    "url": "https://github.com/ethdbg/vscode-ethdbg/issues"
+  },
   "categories": [
     "Debuggers",
     "Ethereum",
@@ -17,7 +22,11 @@
     "smart contracts"
   ],
   "contributes": {
-    "breakpoints": [{"language": "solidity"}],
+    "breakpoints": [
+      {
+        "language": "solidity"
+      }
+    ],
     "debuggers": [
       {
         "configurationAttributes": {
@@ -61,7 +70,9 @@
           }
         },
         "label": "Ethereum Debug",
-        "languages": ["solidity"],
+        "languages": [
+          "solidity"
+        ],
         "program": "./out/etherDebug.js",
         "runtime": "node",
         "type": "ether-debug",
@@ -77,6 +88,9 @@
     }
   ],
   "dependencies": {
+    "@types/hashmap": "^2.0.29",
+    "hashmap": "^2.3.0",
+    "solc": "^0.4.19",
     "vscode-debugadapter": "^1.25.0-pre.0",
     "vscode-debugprotocol": "^1.25.0-pre.0"
   },
@@ -92,9 +106,14 @@
     "vscode-debugadapter-testsupport": "^1.24.0"
   },
   "displayName": "Ethereum Debug",
-  "engines": {"node": "^7.9.0", "vscode": "^1.17.0"},
+  "engines": {
+    "node": "^7.9.0",
+    "vscode": "^1.17.0"
+  },
   "icon": "images/ether-debug-icon.png",
-  "keywords": ["multi-root ready"],
+  "keywords": [
+    "multi-root ready"
+  ],
   "main": "./out/src/extension",
   "name": "ether-debug",
   "private": true,

@@ -3,14 +3,14 @@ import * as fs from 'fs';
 import {join} from 'path';
 import {spawn} from 'child_process';
 import {StreamParser} from './streamParser';
-import {events} from './../ethdbg/index';
+import {events} from './types';
 
 export class EthereumDebuggerConnection {
   public debug: boolean = false;
   private ethDebugger;
   public streamParser: StreamParser;
   private rootPath?: string;
-  
+
   public onOutput: Function | null = null;
   public onError: Function | null = null;
   public onClose: Function | null = null;
@@ -22,7 +22,7 @@ export class EthereumDebuggerConnection {
   }
 
   async initializeRequest() {}
-  
+
   logOutput(data: string) {
     if (typeof this.onOutput === 'function') {
       try {
@@ -45,8 +45,8 @@ export class EthereumDebuggerConnection {
       this.logOutput(`Error: Folder ${cwd} not found`);
     }
 
-    this.ethDebugger = spawn('./ethdbg.js',args);
-    
+    this.ethDebugger = spawn('./../ethdbg.js',args);
+
     this.ethDebugger.on('error', (err) => {
       if (this.debug) {
         console.log('error: ', err);
@@ -76,7 +76,7 @@ export class EthereumDebuggerConnection {
     await this.streamParser.isReady();
     return;
   }
-  
+
   async request(ev, data): Promise<any> {
     await this.streamParser.isReady();
     this.streamParser.request(ev, data);
@@ -91,7 +91,7 @@ export class EthereumDebuggerConnection {
   clearAllBreakpoints() {
     this.streamParser.request(events.clearAllBreakpoints, null);
   }
-  
+
   continue() {
     this.streamParser.request(events.continue, null);
   }
@@ -103,7 +103,7 @@ export class EthereumDebuggerConnection {
   stepOut() {
     this.streamParser.request(events.stepOut, null);
   }
-  
+
   stepOver() {
     this.streamParser.request(events.stepOver, null);
   }
