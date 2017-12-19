@@ -19,7 +19,7 @@ suite('Node Debug Adapter', () => {
 	let dc: DebugClient;
 
 	setup(() => {
-		dc = new DebugClient('node', DEBUG_ADAPTER, 'ether');
+		dc = new DebugClient('node', DEBUG_ADAPTER, 'ether-debug');
 		return dc.start();
 	});
 
@@ -48,7 +48,7 @@ suite('Node Debug Adapter', () => {
 
 		test('should produce error for invalid \'pathFormat\'', done => {
 			dc.initializeRequest({
-				adapterID: 'ether',
+				adapterID: 'ether-debug',
 				linesStartAt1: true,
 				columnsStartAt1: true,
 				pathFormat: 'url'

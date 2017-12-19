@@ -1,6 +1,6 @@
 import {Writable, Readable} from 'stream';
 import {EventEmitter} from 'events';
-import {events} from './../ethdbg/index'
+import {events} from './types'
 
 interface Response {
   event: string;
@@ -33,7 +33,7 @@ export class StreamParser extends EventEmitter {
     });
 
     this.internalEvents.on(events.hitBreakpoint, (evObj) => {
-      this.emit(events.hitBreakpiont, evObj);
+      this.emit(events.hitBreakpoint, evObj);
     });
   }
 

@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import {join} from 'path';
 import {spawn} from 'child_process';
 import {StreamParser} from './streamParser';
-import {events} from './../ethdbg/index';
+import {events} from './types';
 
 export class EthereumDebuggerConnection {
   public debug: boolean = false;
@@ -97,13 +97,17 @@ export class EthereumDebuggerConnection {
   }
 
   stepIn() {
-    this.streamParser.request(events.stepIn, null);
+    this.streamParser.request(events.stepInto, null);
   }
 
   stepOut() {
     this.streamParser.request(events.stepOut, null);
   }
   
+  stepOver() {
+    this.streamParser.request(events.stepOver, null);
+  }
+
   // needs to be async TODO
   restart() {
     this.streamParser.request(events.restart, null);

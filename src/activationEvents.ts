@@ -9,7 +9,7 @@ const initialConfigurations = {
   {
     type: 'ether-debug',
     request: 'launch',
-    program: '${workspaceRoot}' + path.sep,
+    program: '${workspaceRoot}' + path.sep + '${relativeFile}',
     root: '${workspaceRoot}' + path.sep,
     stopOnEntry: true,
     stopOnAllBreakpoints: true,

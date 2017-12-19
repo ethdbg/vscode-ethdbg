@@ -95,7 +95,7 @@
   "engines": {"node": "^7.9.0", "vscode": "^1.17.0"},
   "icon": "images/ether-debug-icon.png",
   "keywords": ["multi-root ready"],
-  "main": "./out/extension",
+  "main": "./out/src/extension",
   "name": "ether-debug",
   "private": true,
   "publisher": "romulus10",
