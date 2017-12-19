@@ -23,22 +23,13 @@ export class StreamParser extends EventEmitter {
       this.ready = true;
       this.readyListeners.forEach(f => f('Ethereum Debugger Ready'));
     });
-    console.log('get into the constructor of StreamParser');
   }
 
   public launch(stdin: Writable, stdout: Readable, stderr: Readable) {
-    console.log('in streamParser launch');
     this.input = stdin;
     this.output = stdout;
     this.error = stderr;
 
-    /*
-    this.output.on('data', (msg) => {
-      console.log('START DATA');
-      console.log(`DATA: ${msg}`);
-      console.log('END DATA');
-    });
-    */
     this.output = byline(this.output);
     this.output.on('data', this.dataIn.bind(this)); // this is where we recieve our messages
 
@@ -103,7 +94,6 @@ export class StreamParser extends EventEmitter {
       throw new Error('Cannot deserialize data which is not a String or Buffer');
     }
     const event:string = this.trimZeros(msg.substr(0, 32));
-    console.log("EVENT: " + event);
     // if not a valid event, we assume it is a console message meant for the user
     // TODO: adjust input/output streams in ethdbg main to differentiate between
     // regular log output and actual debugger events
@@ -114,8 +104,6 @@ export class StreamParser extends EventEmitter {
       };
     }
 
-    let test = msg.substr(32);
-    let test2 = msg.substr(33);
     const data = (msg.substr(32) != 'null' && msg.substr(32) != 'undefined') ? JSON.parse(msg.substr(32)) : null;
 
     return {
@@ -126,7 +114,6 @@ export class StreamParser extends EventEmitter {
 
   /** trims _all_ zeros from a string
    * @param{string} str - string to trim zeros from
-   * @param{number} len - length of string
    * @return{string} - trim without leading zeros
   */
   private trimZeros(str): string {

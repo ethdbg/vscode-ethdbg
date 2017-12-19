@@ -2,6 +2,7 @@
 // TODO remove alot of the boilerplate by moving it into ethdbg main
 const {DebugProvider} = require('/home/insi/Projects/ETHDBG/ethdbg/index.js');
 const yargs = require('yargs');
+const _ = require('lodash');
 
 /**
   Available Options (taken directly from ganache-cli:
@@ -50,6 +51,7 @@ const parser = yargs()
     type: 'string',
     alias: 'u'
   });
+ 
 let argv = parser.parse(process.argv);
 
 if (argv.d || argv.deterministic) {
@@ -133,7 +135,15 @@ function parseAccounts(accounts) {
 
 (() => {
   try {
-    const ethdbg = new DebugProvider(options);
+    let opts = {};
+    _.forIn(options, (val, key) => {  // conv string bools to intrinsic types
+      if (options[key] === 'false' || options[key] === 'true') {
+        opts[key] = (val == 'true'); 
+      } else {
+        opts[key] = val;
+      }
+    });
+    const ethdbg = new DebugProvider(opts);
     ethdbg.run();
   } catch (err) {
     throw new Error(`Error in ethdbg ${err}`);

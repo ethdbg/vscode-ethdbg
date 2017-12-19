@@ -9,6 +9,7 @@ import {
 import { EthereumDebuggerConnection } from './adapter';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { basename } from 'path';
+import { events } from './types';
 
 
 /**
@@ -55,7 +56,6 @@ class EtherDebugSession extends LoggingDebugSession {
 	 */
 	public constructor() {
     super("ether-debug.txt");
-    console.log('get into the constructor of EtherDebugSession');
 
 		// this debugger uses zero-based lines and columns
 		this.setDebuggerLinesStartAt1(false);
@@ -145,18 +145,13 @@ class EtherDebugSession extends LoggingDebugSession {
           if (res.ln) {
             this._currentLine = res.ln - 1;
           }
-
-          // stop on first line
-          // this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
+          this.sendResponse(response);
+          this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
         } else {
           // continue until hit breakpoint
-          this.continueRequest(
-            <DebugProtocol.ContinueResponse>response,
-            { threadId: EtherDebugSession.THREAD_ID}
-          );
+          this.ethDebugger.request(events.start, null);
         }
       });
-   	this.sendResponse(response);
   }
 
   protected threadsRequest(response: DebugProtocol.ThreadsResponse): void {
@@ -212,13 +207,13 @@ class EtherDebugSession extends LoggingDebugSession {
     let path = args.source.path;
     let clientLines = args.lines;
 
-    this.sendEvent(new OutputEvent(`ERR>Reverse continue not implemented\n\n`));
+    this.sendEvent(new OutputEvent(`ERR> setBreakPointsRequest not implemented\n\n`));
     this.sendResponse(response);
 	}
 
 
 	protected stackTraceRequest(response: DebugProtocol.StackTraceResponse, args: DebugProtocol.StackTraceArguments): void {
-	  this.sendEvent(new OutputEvent(`ERR>Reverse continue not implemented\n\n`));
+	  this.sendEvent(new OutputEvent(`ERR> stackTraceRequest not implemented\n\n`));
 
     this.sendResponse(response);
 
@@ -227,7 +222,7 @@ class EtherDebugSession extends LoggingDebugSession {
 	}
 
 	protected scopesRequest(response: DebugProtocol.ScopesResponse, args: DebugProtocol.ScopesArguments): void {
-    this.sendEvent(new OutputEvent(`ERR>Reverse continue not implemented\n\n`));
+    this.sendEvent(new OutputEvent(`ERR> scopesRequest not implemented\n\n`));
 
     this.sendResponse(response);
 
@@ -236,26 +231,26 @@ class EtherDebugSession extends LoggingDebugSession {
 	}
 
 	protected variablesRequest(response: DebugProtocol.VariablesResponse, args: DebugProtocol.VariablesArguments): void {
-    this.sendEvent(new OutputEvent(`ERR>variables Request not implemented\n\n`));
+    this.sendEvent(new OutputEvent(`ERR> variables Request not implemented\n\n`));
 
     this.sendResponse(response);
 	}
 
   protected continueRequest(response: DebugProtocol.ContinueResponse, args: DebugProtocol.ContinueArguments): void {
-    this.sendEvent(new OutputEvent(`ERR> continue not implemented\n\n`));
-
+    // this.ethDebugger.request(events.continue)
+    this.sendEvent(new OutputEvent(`ERR> continue request not implemented\n\n`));
     this.sendResponse(response);
 	}
 
 
   protected nextRequest(response: DebugProtocol.NextResponse, args: DebugProtocol.NextArguments): void {
-    this.sendEvent(new OutputEvent(`ERR>nextRequest not implemented\n\n`));
+    this.sendEvent(new OutputEvent(`ERR> nextRequest not implemented\n\n`));
 
     this.sendResponse(response);
 	}
 
 	protected evaluateRequest(response: DebugProtocol.EvaluateResponse, args: DebugProtocol.EvaluateArguments): void {
-	  this.sendEvent(new OutputEvent(`ERR>evaluateRequest not implemented\n\n`));
+	  this.sendEvent(new OutputEvent(`ERR> evaluateRequest not implemented\n\n`));
 
     this.sendResponse(response);
 	}
