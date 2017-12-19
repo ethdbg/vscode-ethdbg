@@ -1,4 +1,3 @@
-This is an ethereum debugger adapter developed using Microsoft/vscode-mock-debug as a starter.
 
 # VS Code Ethereum Debug
 
