@@ -114,7 +114,7 @@
   "keywords": [
     "multi-root ready"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension",
   "name": "ether-debug",
   "private": true,
   "publisher": "romulus10",
