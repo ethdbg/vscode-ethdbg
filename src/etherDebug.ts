@@ -9,7 +9,6 @@ import {
 import { EthereumDebuggerConnection } from './adapter';
 import { DebugProtocol } from 'vscode-debugprotocol';
 import { basename } from 'path';
-import { events } from './types';
 
 
 /**
@@ -112,7 +111,7 @@ class EtherDebugSession extends LoggingDebugSession {
         response.body.supportsStepBack = false;
 
         response.body.supportsFunctionBreakpoints = false;
-
+        console.log('initialized, sending response');
         this.sendResponse(response);
       });
   }
@@ -149,7 +148,7 @@ class EtherDebugSession extends LoggingDebugSession {
           this.sendEvent(new StoppedEvent("entry", EtherDebugSession.THREAD_ID));
         } else {
           // continue until hit breakpoint
-          this.ethDebugger.request(events.start, null);
+          this.ethDebugger.start();
         }
       });
   }
@@ -203,12 +202,17 @@ class EtherDebugSession extends LoggingDebugSession {
 /** implemented **/
 
 	protected setBreakPointsRequest(response: DebugProtocol.SetBreakpointsResponse, args: DebugProtocol.SetBreakpointsArguments): void {
-
-    let path = args.source.path;
-    let clientLines = args.lines;
-
-    this.sendEvent(new OutputEvent(`ERR> setBreakPointsRequest not implemented\n\n`));
-    this.sendResponse(response);
+    console.log('setting breakpoints');
+    this.ethDebugger.streamParser.isReady()
+      .then(() => {
+        let path = args.source.path;
+        let clientLines = args.lines;
+        this.ethDebugger.addFile(path);
+        this.ethDebugger.addBreakpoints(path, clientLines);
+        console.debug(args);
+        console.debug(response);
+        this.sendResponse(response);
+      });
 	}
 
 

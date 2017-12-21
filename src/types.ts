@@ -6,6 +6,7 @@ export enum events {
     removeBreakpoints=  'removeBreakpoints',
     clearAllBreakpoints='clearAllBreakpoints',
     toggleBreakpoint=   'toggleBreakpoint',
+    addFile=            'addFile',
     addFiles=           'addFiles',
     start=              'start',
     stop=               'stop',

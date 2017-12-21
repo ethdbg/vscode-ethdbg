@@ -34,7 +34,7 @@ export class StreamParser extends EventEmitter {
     this.output.on('data', this.dataIn.bind(this)); // this is where we recieve our messages
 
     this.output.on('error', (err) =>  {
-       console.log(`[ETHDBG][ERR]: ${err}`);
+       console.log(`[ETHDBG][STDERR]: ${err.message}`);
     });
 
     // debugging
@@ -52,7 +52,9 @@ export class StreamParser extends EventEmitter {
   }
 
   public request(ev, data) {
+    console.log(`EVENT: ${ev}, OBJ: ${data}`);
     this.input.write(this.serialize(ev, data));
+    this.input.write('\n');
   }
 
   private onReady(f) {
@@ -73,6 +75,7 @@ export class StreamParser extends EventEmitter {
 
   private dataIn(data: string) {
     const res = this.deserialize(data);
+    console.log(`emitting event: ${res.event}`);
     this.emit(res.event, res.data);
   }
   /**
@@ -95,8 +98,6 @@ export class StreamParser extends EventEmitter {
     }
     const event:string = this.trimZeros(msg.substr(0, 32));
     // if not a valid event, we assume it is a console message meant for the user
-    // TODO: adjust input/output streams in ethdbg main to differentiate between
-    // regular log output and actual debugger events
     if (!(event in events)) {
       return {
         event: "message",

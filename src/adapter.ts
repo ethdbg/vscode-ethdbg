@@ -45,7 +45,7 @@ export class EthereumDebuggerConnection {
     if (cwd && !fs.existsSync(cwd)) {
       this.logOutput(`Error: Folder ${cwd} not found`);
     }
-
+    console.log('spawning ethdbg!');
     this.ethDebugger = spawn('./ethdbg.js',args);
 
     this.ethDebugger.on('error', (err) => {
@@ -96,14 +96,30 @@ export class EthereumDebuggerConnection {
     this.streamParser.request(ev, data);
   }
 
+  start() {
+    this.streamParser.request(events.start, null);
+    console.debug('starting debugger');
+  }
   /** TODO might have to make all these move to async **/
   /** all these need to be async, and get a response from the dbger **/
   toggleBreakpoint(ln: number, filepath: string) {
     this.streamParser.request(events.toggleBreakpoint, filepath);
   }
 
+  addFile(path: string) {
+    this.streamParser.request(events.addFile, path);
+  }
+
+  addFiles(files: Array<string>) {
+    this.streamParser.request(events.addFiles, files);
+  }
+
   clearAllBreakpoints() {
     this.streamParser.request(events.clearAllBreakpoints, null);
+  }
+
+  addBreakpoints(source: string, bp: Array<number>) {
+    this.streamParser.request(events.addBreakpoints, {source, lines: bp});
   }
 
   continue() {
